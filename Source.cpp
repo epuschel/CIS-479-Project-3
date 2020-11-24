@@ -1,5 +1,4 @@
 //Created 11/24/2020
-//Test Edit by Chris Bourn
 
 #include <iostream>
 #include <string>
@@ -14,6 +13,7 @@ struct Node {
     struct Node* prev = NULL;
     struct Node* north = NULL;
     struct Node* south = NULL;
+    float W, N, E, S = 0.0;
 };
 void append(struct Node** head_ref, float new_data, string new_key)
 {
