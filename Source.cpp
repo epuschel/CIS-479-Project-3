@@ -108,7 +108,6 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 }
 void printList(struct Node* node)
 {
-	//cout << left;
 	int counter = 0;
 	int directionCounter = 0;
 	struct Node* last;
@@ -116,32 +115,39 @@ void printList(struct Node* node)
 
 		last = node;
 
-		for (int i = 0; i < 5; i++) 
+		for (int i = 0; i < 5; i++)
 		{
 			if (node->data == -1) {
 				//cout << right << setw(9) << "####";
-				cout << "         " << "####";
+				if (directionCounter == 0 || directionCounter == 2) {
+					cout << "             ";
+				}
+				else {
+					if (node->prev->data == -1) {
+						cout << right << setw(13) << "####";
+					}
+					else {
+						cout << right << setw(11) << "####";
+					}
+				}
 			}
 
 			else {
 				if (directionCounter == 0) {
-					//cout << right << setw(9) << fixed << setprecision(2) << node->N;
 					cout << "         " << fixed << setprecision(2) << node->N;
 				}
-				if (directionCounter == 1) 
+				if (directionCounter == 1)
 				{
-					if (node->key == "a1" || node->key == "b1" || node->key == "b4" || node->key == "c3" || node->key == "d4" || node->key == "e3" || node->key == "f1")
-						//cout << right << setw(6) << node->W;
+					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1" || node->prev->data == -1)
 						cout << "      ";
 					else
 						cout << "    ";
 					cout << node->W << " " << node->E;
 				}
 				if (directionCounter == 2) {
-					//cout << right << setw(9) << fixed << setprecision(2) << node->S;
 					cout << "         " << fixed << setprecision(2) << node->S;
 				}
-		}
+			}
 
 			node = node->next;
 
@@ -150,7 +156,6 @@ void printList(struct Node* node)
 			}
 		}
 		if (directionCounter == 2) {
-			node = node->next;
 			directionCounter = 0;
 		}
 		else {
@@ -219,6 +224,7 @@ int main() {
 	printKey(head);
 	cout << endl << endl;
 	printList(head);
+
 	system("pause");
 	return 0;
 }
