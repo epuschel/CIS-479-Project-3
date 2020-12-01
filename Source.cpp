@@ -118,7 +118,7 @@ void printList(struct Node* node)
         
         last = node;
 
-        for (int i = 0; i < 5 i++) {
+        for (int i = 0; i < 5; i++) {
             
             if (node->data == -1) {
                 cout << setw(8) << "####" << " ";
