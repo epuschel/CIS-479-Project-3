@@ -8,10 +8,10 @@ using namespace std;
 
 struct Node {
     float data = 0.0;
-    float W = 0.0;
-    float N = 0.0;
-    float E = 0.0;
-    float S = 0.0;
+    float W = 1.0;
+    float N = 2.0;
+    float E = 3.0;
+    float S = 4.0;
     string key = "####";
     struct Node* next = NULL;
     struct Node* prev = NULL;
@@ -113,35 +113,48 @@ void printList(struct Node* node)
     cout << left;
     int counter = 0;
     int directionCounter = 0;
-    struct Node* last{};
-
+    struct Node* last;
     while (node != NULL) {
-        if (counter == 5 || counter == 10 || counter == 15 || counter == 20 || counter == 25) {
-            cout << endl;
-        }
-        if (node->data == -1) {
-            cout << setw(8) << "####" << " ";
-        }
-        else
-            while (directionCounter != 3) {
+        
+        last = node;
+
+        for (int i = 0; i < 5 i++) {
+            
+            if (node->data == -1) {
+                cout << setw(8) << "####" << " ";
+            }
+
+            else {
                 if (directionCounter == 0) {
-                    cout << setw(8) << fixed << setprecision(2) << node->N << " ";
+                    cout << setw(5) << fixed << setprecision(2) << node->N << " ";
                 }
                 if (directionCounter == 1) {
-                    cout << setw(8) << fixed << setprecision(2) << node->W << " ";
-                    cout << setw(8) << fixed << setprecision(2) << node->E << " ";
+                    cout << node->W << " ";
+                    cout << node->E << " ";
                 }
                 if (directionCounter == 2) {
-                    cout << setw(8) << fixed << setprecision(2) << node->S << " ";
+                    cout << setw(5) << fixed << setprecision(2) << node->S << " ";
                 }
-                directionCounter++;
             }
-        last = node;
-        node = node->next;
-        counter++;
-        directionCounter = 0;
+
+            node = node->next;
+
+            if (i == 4) {
+                cout << endl;
+            }
+        }
+        if (directionCounter == 2) {
+            node = node->next;
+            directionCounter = 0;
+        }
+        else {
+            node = last;
+            counter++;
+            directionCounter++;
+        }
     }
 }
+
 void printKey(struct Node* node) {
     cout << left;
     int counter = 0;
