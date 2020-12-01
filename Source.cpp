@@ -1,6 +1,4 @@
 //Created 11/24/2020
-//Test Edit Chris Bourn
-//Test Edit number 2 by Chris Bourn
 
 #include <iostream>
 #include <string>
@@ -10,20 +8,30 @@ using namespace std;
 
 struct Node {
     float data = 0.0;
+    float W = 0.0;
+    float N = 0.0;
+    float E = 0.0;
+    float S = 0.0;
     string key = "####";
     struct Node* next = NULL;
     struct Node* prev = NULL;
     struct Node* north = NULL;
     struct Node* south = NULL;
-    float W, N, E, S = 0.0;
 };
-void append(struct Node** head_ref, float new_data, string new_key)
+void append(struct Node** head_ref, float new_data, string new_key, bool block)
 {
     struct Node* new_node = new Node;
 
     struct Node* last = *head_ref;
 
     new_node->data = new_data;
+
+    if (block == true) {
+        new_node->W = -1;
+        new_node->N = -1;
+        new_node->E = -1;
+        new_node->S = -1;
+    }
 
     new_node->key = new_key;
 
@@ -104,6 +112,7 @@ void printList(struct Node* node)
 {
     cout << left;
     int counter = 0;
+    int directionCounter = 0;
     struct Node* last{};
 
     while (node != NULL) {
@@ -114,10 +123,23 @@ void printList(struct Node* node)
             cout << setw(8) << "####" << " ";
         }
         else
-            cout << setw(8) << fixed << setprecision(2) << node->data << " ";
+            while (directionCounter != 3) {
+                if (directionCounter == 0) {
+                    cout << setw(8) << fixed << setprecision(2) << node->N << " ";
+                }
+                if (directionCounter == 1) {
+                    cout << setw(8) << fixed << setprecision(2) << node->W << " ";
+                    cout << setw(8) << fixed << setprecision(2) << node->E << " ";
+                }
+                if (directionCounter == 2) {
+                    cout << setw(8) << fixed << setprecision(2) << node->S << " ";
+                }
+                directionCounter++;
+            }
         last = node;
         node = node->next;
         counter++;
+        directionCounter = 0;
     }
 }
 void printKey(struct Node* node) {
@@ -163,10 +185,10 @@ int main() {
 
 
         if (i == 6 || i == 7 || i == 11 || i == 16 || i == 17 || i == 21) {
-            append(&head, -1, msg + to_string(counter));
+            append(&head, -1, msg + to_string(counter), true);
         }
         else
-            append(&head, 0.0, msg + to_string(counter));
+            append(&head, 0.0, msg + to_string(counter), false);
         if (counter == 5) {
             counter = 1;
         }
