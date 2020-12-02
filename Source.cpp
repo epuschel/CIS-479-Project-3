@@ -118,7 +118,42 @@ Node* locate(struct Node* node, string s, bool a) {
 	}
 	return NULL;
 }
+void fillGrid(struct Node* head) {
+	
+	struct Node* goal;
+	string msg = "";
+	int counter = 1;
 
+	for (int i = 0; i < 30; i++) {
+
+		if (i < 5)
+			msg = "a";
+		if (i >= 5 && i < 10)
+			msg = "b";
+		if (i >= 10 && i < 15)
+			msg = "c";
+		if (i >= 15 && i < 20)
+			msg = "d";
+		if (i >= 20 && i < 25)
+			msg = "e";
+		if (i >= 25 && i < 30)
+			msg = "f";
+
+
+		if (i == 6 || i == 7 || i == 11 || i == 16 || i == 17 || i == 21) {
+			append(&head, -1, msg + to_string(counter), true);
+		}
+		else
+			append(&head, 0.0, msg + to_string(counter), false);
+		if (counter == 5) {
+			counter = 1;
+		}
+		else
+			counter++;
+	}
+	goal = locate(head, "c3");
+	goal->data = 100;
+}
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 
 // LAST MODIFIED:
@@ -400,14 +435,14 @@ int main() {
 		else
 			counter++;
 	}
+	
 	/*Make the doubly linked list a quadruply linked list by connecting the north and south nodes*/
+	//fillGrid(head);
 	reConnectGrid(head, head);
 	printKey(head);
 	cout << endl << endl;
 	printNList(head);
 	printQList(head);
-	Node * goal = locate(head, "c3");
-	goal->data = 100;
 	RandomStart(head);
 
 	system("pause");
