@@ -89,6 +89,7 @@ Node* locate(struct Node* node, string s) {
 		last = node;
 		node = node->next;
 	}
+	return NULL;
 }
 
 // AUTHOR: Christopher Bourn
@@ -152,7 +153,7 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 // LAST MODIFIED:
 // INPUT: 
 // OUTPUT: 
-// DESCRIPTION:
+// DESCRIPTION: 
 void fillGrid(struct Node** head) {
 
 	struct Node* goal;
@@ -406,7 +407,6 @@ Node* RandomStart(Node* head)
 		}
 		temp = locate(head, row + to_string(column));
 	}
-	//cout << endl << "Randomly generated key: " << temp->key << endl;
 	return temp;
 }
 
@@ -416,7 +416,7 @@ Node* RandomStart(Node* head)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomTile(Node * Tile, char& nextDirection)
+Node* RandomTile(Node* Tile, char& nextDirection)
 {
 	int d4 = rand() % 4;
 	switch (d4)
@@ -450,10 +450,10 @@ Node * RandomTile(Node * Tile, char& nextDirection)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * OptimalTile(Node * Tile, char& nextDirection)
+Node* OptimalTile(Node* Tile, char& nextDirection)
 {
 	float optimalAction[4] = { Tile->W.qValue, Tile->N.qValue, Tile->E.qValue, Tile->S.qValue };
-	float * optimalCost = max_element(optimalAction, optimalAction + 4);
+	float* optimalCost = max_element(optimalAction, optimalAction + 4);
 	if (*optimalCost == Tile->W.qValue)
 	{
 		nextDirection = 'W';
@@ -485,13 +485,16 @@ Node * OptimalTile(Node * Tile, char& nextDirection)
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
-	
+
 	fillGrid((&head));
 	printKey(head);
 	cout << endl << endl;
 	printNList(head);
 	printQList(head);
 	RandomStart(head);
+
+	char test;
+	OptimalTile(locate(head, "a1"), test);
 
 	system("pause");
 	return 0;
