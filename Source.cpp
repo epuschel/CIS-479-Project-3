@@ -7,6 +7,7 @@
 #include <iostream>
 #include <string>
 #include <iomanip>
+#include <ctime>
 using namespace std;
 
 struct Direction {
@@ -332,8 +333,11 @@ void printKey(struct Node* node) {
 // INPUT: Pointer to the head node
 // OUTPUT: Randomly selected node
 // DESCRIPTION: Function returns a random node in the quad-linked list to start the calculations.
-void RandomStart(Node * head)
+Node* RandomStart(Node* head)
 {
+	struct Node* temp;
+
+	srand((int)time(0));
 	int letter = rand() % 6;
 	int column = rand() % 5 + 1;
 	string row, startKey;
@@ -358,9 +362,10 @@ void RandomStart(Node * head)
 		row = "f";
 		break;
 	}
-	/*cout << "Randomly generated key: " << row << column << endl;
-	head = locate(head, row + to_string(column));
-	cout << "New head node: " << head->key << endl;*/
+	cout << endl << "Randomly generated key: " << row << column << endl;
+	temp = locate(head, row + to_string(column));
+
+	return temp;
 }
 
 // AUTHOR: Ethan Puschell
@@ -369,7 +374,7 @@ void RandomStart(Node * head)
 // INPUT: Pointer to the head node
 // OUTPUT: Q & N values set for the goal node.
 // DESCRIPTION: Function locates the goal node and then sets all of its Q and N values to 100
-void InitializeGoal(Node * head)
+void InitializeGoal(Node* head)
 {
 	head = locate(head, "c3");
 	head->W.nValue = 100;
@@ -426,6 +431,8 @@ int main() {
 	cout << endl << endl;
 	printNList(head);
 	printQList(head);
+
+	RandomStart(head);
 
 	system("pause");
 	return 0;
