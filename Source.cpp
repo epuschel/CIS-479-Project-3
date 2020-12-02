@@ -376,35 +376,109 @@ void printKey(struct Node* node) {
 // DESCRIPTION: Function returns a random node in the quad-linked list to start the calculations.
 Node* RandomStart(Node* head)
 {
-	struct Node* temp;
-	int letter = rand() % 6;
-	int column = rand() % 5 + 1;
-	string row, startKey;
-	switch (letter)
+	struct Node* temp = locate(head, "b2");
+	while (temp->data == -1)
 	{
-	case 0:
-		row = "a";
-		break;
-	case 1:
-		row = "b";
-		break;
-	case 2:
-		row = "c";
-		break;
-	case 3:
-		row = "d";
-		break;
-	case 4:
-		row = "e";
-		break;
-	case 5:
-		row = "f";
-		break;
+		int letter = rand() % 6;
+		int column = rand() % 5 + 1;
+		string row, startKey;
+		switch (letter)
+		{
+		case 0:
+			row = "a";
+			break;
+		case 1:
+			row = "b";
+			break;
+		case 2:
+			row = "c";
+			break;
+		case 3:
+			row = "d";
+			break;
+		case 4:
+			row = "e";
+			break;
+		case 5:
+			row = "f";
+			break;
+		}
+		temp = locate(head, row + to_string(column));
 	}
-	cout << endl << "Randomly generated key: " << row << column << endl;
-	temp = locate(head, row + to_string(column));
-
+	//cout << endl << "Randomly generated key: " << temp->key << endl;
 	return temp;
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomTile(Node * Tile, char& nextDirection)
+{
+	int d4 = rand() % 4;
+	switch (d4)
+	{
+	case(0):
+		nextDirection = 'W';
+		return Tile->prev;
+		break;
+	case(1):
+		nextDirection = 'E';
+		return Tile->next;
+		break;
+	case(2):
+		nextDirection = 'N';
+		return Tile->north;
+		break;
+	case(3):
+		nextDirection = 'S';
+		return Tile->south;
+		break;
+	default:
+		cerr << "ERROR: Tile was not randomly chosen." << endl;
+		system("pause");
+		exit(0);
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * OptimalTile(Node * Tile, char& nextDirection)
+{
+	float optimalAction[4] = { Tile->W.qValue, Tile->N.qValue, Tile->E.qValue, Tile->S.qValue };
+	float * optimalCost = max_element(optimalAction, optimalAction + 4);
+	if (*optimalCost == Tile->W.qValue)
+	{
+		nextDirection = 'W';
+		return Tile->prev;
+	}
+	else if (*optimalCost == Tile->N.qValue)
+	{
+		nextDirection = 'N';
+		return Tile->north;
+	}
+	else if (*optimalCost = Tile->E.qValue)
+	{
+		nextDirection = 'E';
+		return Tile->next;
+	}
+	else if (*optimalCost = Tile->S.qValue)
+	{
+		nextDirection = 'S';
+		return Tile->south;
+	}
+	else
+	{
+		cerr << "ERROR: Optimal action was not correctly found!" << endl;
+		system("pause");
+		exit(0);
+	}
 }
 
 int main() {
