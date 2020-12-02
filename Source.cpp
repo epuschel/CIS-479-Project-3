@@ -310,6 +310,43 @@ void printKey(struct Node* node) {
 	}
 }
 
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: Pointer to the head node
+// OUTPUT: Randomly selected node
+// DESCRIPTION: Function returns a random node in the quad-linked list to start the calculations.
+void RandomStart(Node * head)
+{
+	int letter = rand() % 6;
+	int column = rand() % 5 + 1;
+	string row, startKey;
+	switch (letter)
+	{
+	case 0:
+		row = "a";
+		break;
+	case 1:
+		row = "b";
+		break;
+	case 2:
+		row = "c";
+		break;
+	case 3:
+		row = "d";
+		break;
+	case 4:
+		row = "e";
+		break;
+	case 5:
+		row = "f";
+		break;
+	}
+	/*cout << "Randomly generated key: " << row << column << endl;
+	head = locate(head, row + to_string(column));
+	cout << "New head node: " << head->key << endl;*/
+}
+
 int main() {
 
 	Node* head = NULL;
