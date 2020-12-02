@@ -168,22 +168,26 @@ void printQList(struct Node* node)
 					cout << "             ";
 				}
 				else {
-					if (node->prev->data == -1) {
+					if (node->prev->data == -1)
 						cout << right << setw(13) << "####";
-					}
-					else {
+					else
 						cout << right << setw(11) << "####";
-					}
 				}
 			}
-
+			else if (node->key == "c3")
+			{
+				if (directionCounter == 0 || directionCounter == 2)
+					cout << "             ";
+				else
+					cout << right << setw(13) << "+100";
+			}
 			else {
 				if (directionCounter == 0) {
 					cout << "         " << fixed << setprecision(2) << node->N.qValue;
 				}
 				if (directionCounter == 1)
 				{
-					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1" || node->prev->data == -1)
+					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "c4" || node->key == "d1" || node->key == "e1" || node->key == "f1" || node->prev->data == -1)
 						cout << "      ";
 					else
 						cout << "    ";
@@ -241,7 +245,13 @@ void printNList(struct Node* node)
 						cout << right << setw(11) << "####";
 				}
 			}
-
+			else if (node->key == "c3")
+			{
+				if (directionCounter == 0 || directionCounter == 2)
+					cout << "       ";
+				else
+					cout << right << setw(10) << "+100";
+			}
 			else {
 				if (directionCounter == 0) {
 					if (node->key == "b4" || node->key == "d4")
@@ -256,7 +266,7 @@ void printNList(struct Node* node)
 				{
 					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1")
 						cout << "        ";
-					else if (node->prev->data == -1)
+					else if (node->key == "c4" || node->prev->data == -1)
 						cout << "      ";
 					else
 						cout << "       ";
@@ -291,6 +301,12 @@ void printNList(struct Node* node)
 	cout << endl;
 }
 
+// AUTHOR: Christopher Bourn
+// CREATION DATE:
+// LAST MODIFIED:
+// INPUT:
+// OUTPUT:
+// DESCRIPTION:
 void printKey(struct Node* node) {
 	cout << left;
 	int counter = 0;
@@ -345,6 +361,29 @@ void RandomStart(Node * head)
 	/*cout << "Randomly generated key: " << row << column << endl;
 	head = locate(head, row + to_string(column));
 	cout << "New head node: " << head->key << endl;*/
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: Pointer to the head node
+// OUTPUT: Q & N values set for the goal node.
+// DESCRIPTION: Function locates the goal node and then sets all of its Q and N values to 100
+void InitializeGoal(Node * head)
+{
+	head = locate(head, "c3");
+	head->W.nValue = 100;
+	head->W.qValue = 100;
+	head->N.nValue = 100;
+	head->N.qValue = 100;
+	head->E.nValue = 100;
+	head->E.qValue = 100;
+	head->S.nValue = 100;
+	head->S.qValue = 100;
+	head->data = 100;
+	/*cout << "Goal Tile: " << head->key << endl
+		<< "N-values (North, South, East, West): " << head->N.nValue << " " << head->S.nValue << " " << head->E.nValue << " " << head->W.nValue << endl
+		<< "Q-values (North, South, East, West): " << head->N.qValue << " " << head->S.qValue << " " << head->E.qValue << " " << head->W.qValue << endl;*/
 }
 
 int main() {
