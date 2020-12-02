@@ -152,7 +152,7 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 // LAST MODIFIED:
 // INPUT: 
 // OUTPUT: 
-// DESCRIPTION: 2nd function finds the node above or below a node
+// DESCRIPTION:
 void fillGrid(struct Node** head) {
 
 	struct Node* goal;
