@@ -1,21 +1,35 @@
+/*
+*Authors: Christopher Bourn & Ethan Puschell
+*Creation Date: 11-24-20
+*Modification Date: 12-1-20
+*Purpose:
+*/
 #include <iostream>
 #include <string>
 #include <iomanip>
 using namespace std;
 
+struct Direction {
+	float qValue = 0.0;
+	int nValue = 0;
+};
 
 struct Node {
 	float data = 0.0;
-	float W = 1.0;
-	float N = 2.0;
-	float E = 3.0;
-	float S = 4.0;
+	Direction W, N, E, S;
 	string key = "####";
 	struct Node* next = NULL;
 	struct Node* prev = NULL;
 	struct Node* north = NULL;
 	struct Node* south = NULL;
 };
+
+// AUTHOR: Christopher Bourn (and a little bit of Ethan Puschell)
+// CREATION DATE: 
+// LAST MODIFIED: 12-1-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
 void append(struct Node** head_ref, float new_data, string new_key, bool block)
 {
 	struct Node* new_node = new Node;
@@ -25,10 +39,14 @@ void append(struct Node** head_ref, float new_data, string new_key, bool block)
 	new_node->data = new_data;
 
 	if (block == true) {
-		new_node->W = -1;
-		new_node->N = -1;
-		new_node->E = -1;
-		new_node->S = -1;
+		new_node->W.nValue = -1;
+		new_node->W.qValue = -1;
+		new_node->N.nValue = -1;
+		new_node->N.qValue = -1;
+		new_node->E.nValue = -1;
+		new_node->E.qValue = -1;
+		new_node->S.nValue = -1;
+		new_node->S.qValue = -1;
 	}
 
 	new_node->key = new_key;
@@ -52,6 +70,13 @@ void append(struct Node** head_ref, float new_data, string new_key, bool block)
 
 	return;
 }
+
+// AUTHOR: Christopher Bourn
+// CREATION DATE: 
+// LAST MODIFIED:
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
 Node* locate(struct Node* node, string s) {
 	struct Node* last{};
 	while (node != NULL) {
@@ -63,7 +88,13 @@ Node* locate(struct Node* node, string s) {
 		node = node->next;
 	}
 }
-/*2nd function finds the node above or below a node*/
+
+// AUTHOR: Christopher Bourn
+// CREATION DATE: 
+// LAST MODIFIED:
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 2nd function finds the node above or below a node
 Node* locate(struct Node* node, string s, bool a) {
 	struct Node* last{};
 
@@ -86,6 +117,13 @@ Node* locate(struct Node* node, string s, bool a) {
 	}
 	return NULL;
 }
+
+// AUTHOR: Christopher Bourn
+// CREATION DATE: 
+// LAST MODIFIED:
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
 void reConnectGrid(struct Node* head, struct Node* node) {
 	struct Node* last{};
 	while (node != NULL) {
@@ -106,8 +144,16 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 		node = node->next;
 	}
 }
-void printList(struct Node* node)
+
+// AUTHORS: Christopher Bourn & Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: Pointer to the head node.
+// OUTPUT: Q-values for the maze's tiles and directions
+// DESCRIPTION: Function prints out the Q-values given for each tile and direction in the maze.
+void printQList(struct Node* node)
 {
+	cout << "Q-List" << endl;
 	int counter = 0;
 	int directionCounter = 0;
 	struct Node* last;
@@ -118,7 +164,6 @@ void printList(struct Node* node)
 		for (int i = 0; i < 5; i++)
 		{
 			if (node->data == -1) {
-				//cout << right << setw(9) << "####";
 				if (directionCounter == 0 || directionCounter == 2) {
 					cout << "             ";
 				}
@@ -134,7 +179,7 @@ void printList(struct Node* node)
 
 			else {
 				if (directionCounter == 0) {
-					cout << "         " << fixed << setprecision(2) << node->N;
+					cout << "         " << fixed << setprecision(2) << node->N.qValue;
 				}
 				if (directionCounter == 1)
 				{
@@ -142,10 +187,10 @@ void printList(struct Node* node)
 						cout << "      ";
 					else
 						cout << "    ";
-					cout << node->W << " " << node->E;
+					cout << node->W.qValue << " " << node->E.qValue;
 				}
 				if (directionCounter == 2) {
-					cout << "         " << fixed << setprecision(2) << node->S;
+					cout << "         " << fixed << setprecision(2) << node->S.qValue;
 				}
 			}
 
@@ -164,6 +209,86 @@ void printList(struct Node* node)
 			directionCounter++;
 		}
 	}
+	cout << endl;
+}
+
+// AUTHORS: Christopher Bourn & Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
+// INPUT: Pointer to the head node.
+// OUTPUT: N-values for the maze's tiles and directions
+// DESCRIPTION: Function prints out the N-values given for each tile and direction in the maze.
+void printNList(struct Node* node)
+{
+	cout << "N-List" << endl;
+	int counter = 0;
+	int directionCounter = 0;
+	struct Node* last;
+	while (node != NULL) {
+
+		last = node;
+
+		for (int i = 0; i < 5; i++)
+		{
+			if (node->data == -1) {
+				if (directionCounter == 0 || directionCounter == 2) {
+					cout << "             ";
+				}
+				else {
+					if (node->prev->data == -1)
+						cout << right << setw(10) << "####";
+					else
+						cout << right << setw(11) << "####";
+				}
+			}
+
+			else {
+				if (directionCounter == 0) {
+					if (node->key == "b4" || node->key == "d4")
+						cout << "   ";
+					else if (node->key == "c3" || node->key == "e3")
+						cout << "      ";
+					else
+						cout << "         ";
+					cout << fixed << setprecision(2) << node->N.nValue;
+				}
+				if (directionCounter == 1)
+				{
+					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1")
+						cout << "        ";
+					else if (node->prev->data == -1)
+						cout << "      ";
+					else
+						cout << "       ";
+					cout << node->W.nValue << " " << node->E.nValue;
+				}
+				if (directionCounter == 2) {
+					if (node->key == "b4" || node->key == "d4")
+						cout << "   ";
+					else if (node->key == "c3" || node->key == "e3")
+						cout << "      ";
+					else
+						cout << "         ";
+					cout << fixed << setprecision(2) << node->S.nValue;
+				}
+			}
+
+			node = node->next;
+
+			if (i == 4) {
+				cout << endl;
+			}
+		}
+		if (directionCounter == 2) {
+			directionCounter = 0;
+		}
+		else {
+			node = last;
+			counter++;
+			directionCounter++;
+		}
+	}
+	cout << endl;
 }
 
 void printKey(struct Node* node) {
@@ -223,7 +348,8 @@ int main() {
 	reConnectGrid(head, head);
 	printKey(head);
 	cout << endl << endl;
-	printList(head);
+	printNList(head);
+	printQList(head);
 
 	system("pause");
 	return 0;
