@@ -482,6 +482,94 @@ Node* OptimalTile(Node* Tile, char& nextDirection)
 	}
 }
 
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+float MaxQSA(Node * nextTile)
+{
+	if (nextTile->W.qValue == nextTile->N.qValue == nextTile->E.qValue == nextTile->S.qValue)
+		return nextTile->W.qValue;
+	else
+	{
+		float optimalAction[4] = { nextTile->W.qValue, nextTile->N.qValue, nextTile->E.qValue, nextTile->S.qValue };
+		float * optimalCost = max_element(optimalAction, optimalAction + 4);
+		if (*optimalCost == nextTile->W.qValue)
+			return nextTile->W.qValue;
+		else if (*optimalCost == nextTile->N.qValue)
+			return nextTile->N.qValue;
+		else if (*optimalCost = nextTile->E.qValue)
+			return nextTile->E.qValue;
+		else if (*optimalCost = nextTile->S.qValue)
+			return nextTile->S.qValue;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+void UpdateNQ(Node * tile, Node * nextTile, char nextDirection)
+{
+	int nsa, qsa;
+	switch (nextDirection)
+	{
+	case ('W'):
+		tile->W.nValue++;
+		nsa = tile->W.nValue;
+		qsa = tile->W.qValue;
+		tile->W.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextTile) - qsa);
+		break;
+	case ('N'):
+		tile->N.nValue++;
+		nsa = tile->N.nValue;
+		qsa = tile->N.qValue;
+		tile->W.qValue = qsa + (1 / nsa) * (-3 + 0.9 * MaxQSA(nextTile) - qsa);
+		break;
+	case ('E'):
+		tile->E.nValue++;
+		nsa = tile->E.nValue;
+		qsa = tile->E.qValue;
+		tile->E.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextTile) - qsa);
+		break;
+	case('S'):
+		tile->S.nValue++;
+		nsa = tile->S.nValue;
+		qsa = tile->S.qValue;
+		tile->S.qValue = qsa + (1 / nsa) * (-1 + 0.9 * MaxQSA(nextTile) - qsa);
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+void EGreedy(Node * tile, int& counter)
+{
+	if (tile->data == 100 || counter == 100)
+		return;
+	counter++;
+	Node * nextTile;
+	char nextDirection;
+	int rsa, nsa;
+	if (tile->W.qValue == tile->N.qValue == tile->E.qValue == tile->S.qValue)
+		nextTile = RandomTile(tile, nextDirection);
+	else
+		nextTile = OptimalTile(tile, nextDirection);
+
+	if (nextTile == NULL || nextTile->data == -1)
+		nextTile = tile;
+	UpdateNQ(tile, nextTile, nextDirection);
+	EGreedy(nextTile, counter);
+}
+
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
