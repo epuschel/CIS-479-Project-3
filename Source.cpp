@@ -366,31 +366,6 @@ Node* RandomStart(Node* head)
 	return temp;
 }
 
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-1-20
-// LAST MODIFIED: 12-1-20
-// INPUT: Pointer to the head node
-// OUTPUT: Q & N values set for the goal node.
-// DESCRIPTION: Function locates the goal node and then sets all of its Q and N values to 100
-void InitializeGoal(Node * head)
-{
-	Node * goal = locate(head, "c3");
-	goal->W.nValue = 100;
-	goal->W.qValue = 100;
-	goal->N.nValue = 100;
-	goal->N.qValue = 100;
-	goal->E.nValue = 100;
-	goal->E.qValue = 100;
-	goal->S.nValue = 100;
-	goal->S.qValue = 100;
-	goal->data = 100;
-	/*cout << "Goal Tile: " << goal->key << endl
-		<< "N-values (North, South, East, West): " << goal->N.nValue << " " << goal->S.nValue << " " << goal->E.nValue << " " << goal->W.nValue << endl
-		<< "Q-values (North, South, East, West): " << goal->N.qValue << " " << goal->S.qValue << " " << goal->E.qValue << " " << goal->W.qValue << endl;
-	Node * tester = locate(head, "c3");
-	cout << "Test of goal node values: " << tester->N.nValue << endl;*/
-}
-
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
@@ -431,7 +406,8 @@ int main() {
 	cout << endl << endl;
 	printNList(head);
 	printQList(head);
-
+	Node * goal = locate(head, "c3");
+	goal->data = 100;
 	RandomStart(head);
 
 	system("pause");
