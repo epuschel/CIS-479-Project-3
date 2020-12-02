@@ -336,8 +336,6 @@ void printKey(struct Node* node) {
 Node* RandomStart(Node* head)
 {
 	struct Node* temp;
-
-	srand((int)time(0));
 	int letter = rand() % 6;
 	int column = rand() % 5 + 1;
 	string row, startKey;
@@ -374,25 +372,27 @@ Node* RandomStart(Node* head)
 // INPUT: Pointer to the head node
 // OUTPUT: Q & N values set for the goal node.
 // DESCRIPTION: Function locates the goal node and then sets all of its Q and N values to 100
-void InitializeGoal(Node* head)
+void InitializeGoal(Node * head)
 {
-	head = locate(head, "c3");
-	head->W.nValue = 100;
-	head->W.qValue = 100;
-	head->N.nValue = 100;
-	head->N.qValue = 100;
-	head->E.nValue = 100;
-	head->E.qValue = 100;
-	head->S.nValue = 100;
-	head->S.qValue = 100;
-	head->data = 100;
-	/*cout << "Goal Tile: " << head->key << endl
-		<< "N-values (North, South, East, West): " << head->N.nValue << " " << head->S.nValue << " " << head->E.nValue << " " << head->W.nValue << endl
-		<< "Q-values (North, South, East, West): " << head->N.qValue << " " << head->S.qValue << " " << head->E.qValue << " " << head->W.qValue << endl;*/
+	Node * goal = locate(head, "c3");
+	goal->W.nValue = 100;
+	goal->W.qValue = 100;
+	goal->N.nValue = 100;
+	goal->N.qValue = 100;
+	goal->E.nValue = 100;
+	goal->E.qValue = 100;
+	goal->S.nValue = 100;
+	goal->S.qValue = 100;
+	goal->data = 100;
+	/*cout << "Goal Tile: " << goal->key << endl
+		<< "N-values (North, South, East, West): " << goal->N.nValue << " " << goal->S.nValue << " " << goal->E.nValue << " " << goal->W.nValue << endl
+		<< "Q-values (North, South, East, West): " << goal->N.qValue << " " << goal->S.qValue << " " << goal->E.qValue << " " << goal->W.qValue << endl;
+	Node * tester = locate(head, "c3");
+	cout << "Test of goal node values: " << tester->N.nValue << endl;*/
 }
 
 int main() {
-
+	srand((int)time(0));
 	Node* head = NULL;
 	string msg = "";
 	int counter = 1;
