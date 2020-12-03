@@ -745,27 +745,27 @@ void UpdateNQ(Node * state, Node * nextState, char action)
 	{
 	case ('W'):
 		state->W.nValue++;
-		nsa = state->W.nValue * 1.0;
-		qsa = state->W.qValue * 1.0;
-		state->W.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextState) - qsa);
+		nsa = (float) state->W.nValue;
+		qsa = (float) state->W.qValue;
+		state->W.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case ('N'):
 		state->N.nValue++;
-		nsa = state->N.nValue * 1.0;
-		qsa = state->N.qValue * 1.0;
-		state->N.qValue = qsa + (1 / nsa) * (-3 + 0.9 * MaxQSA(nextState) - qsa);
+		nsa = (float) state->N.nValue;
+		qsa = (float) state->N.qValue;
+		state->N.qValue = qsa + ((1.0 / nsa) * (-3.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case ('E'):
 		state->E.nValue++;
-		nsa = state->E.nValue * 1.0;
-		qsa = state->E.qValue * 1.0;
-		state->E.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextState) - qsa);
+		nsa = (float) state->E.nValue;
+		qsa = (float) state->E.qValue;
+		state->E.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case('S'):
 		state->S.nValue++;
-		nsa = state->S.nValue * 1.0;
-		qsa = state->S.qValue * 1.0;
-		state->S.qValue = qsa + (1 / nsa) * (-1 + 0.9 * MaxQSA(nextState) - qsa);
+		nsa = (float) state->S.nValue;
+		qsa = (float) state->S.qValue;
+		state->S.qValue = qsa + ((1.0 / nsa) * (-1.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	}
 }
