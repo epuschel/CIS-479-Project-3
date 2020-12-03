@@ -937,6 +937,8 @@ void EGreedy(Node* state, int& counter)
 		nextState = RandomTile(state, action);
 	else
 		nextState = OptimalTile(state, action);
+	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
+		nextState = state;
 	nextState = TDrift(state, action);
 	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
 		nextState = state;
