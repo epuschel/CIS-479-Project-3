@@ -736,9 +736,9 @@ float MaxQSA(Node* nextState)
 		return nextState->W.qValue;
 	else if (*optimalCost == nextState->N.qValue)
 		return nextState->N.qValue;
-	else if (*optimalCost = nextState->E.qValue)
+	else if (*optimalCost == nextState->E.qValue)
 		return nextState->E.qValue;
-	else if (*optimalCost = nextState->S.qValue)
+	else if (*optimalCost == nextState->S.qValue)
 		return nextState->S.qValue;
 }
 
@@ -750,7 +750,7 @@ float MaxQSA(Node* nextState)
 // DESCRIPTION:
 void UpdateNQ(Node* state, Node* nextState, char action)
 {
-	float nsa, qsa;
+	float nsa, qsa, test;
 	switch (action)
 	{
 	case ('W'):
@@ -769,6 +769,7 @@ void UpdateNQ(Node* state, Node* nextState, char action)
 		state->E.nValue++;
 		nsa = (float)state->E.nValue;
 		qsa = (float)state->E.qValue;
+		test = MaxQSA(nextState);
 		state->E.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case('S'):
@@ -811,21 +812,14 @@ int main() {
 	fillGrid((&head));
 	printKey(head);
 	cout << endl << endl;
-	//EGreedy(RandomStart(head), counter);
-	EGreedy(locate(head, "a4"), counter);
-	/*for (int i = 0; i < 10000; i++)
+
+	for (int i = 0; i < 10000; i++)
 	{
 		counter = 0;
 		EGreedy(RandomStart(head), counter);
-	}*/
+	}
 	printNList(head);
 	printQList(head);
-	//RandomStart(head);
-	/*for (int i = 0; i < 10000; i++)
-	{
-	counter = 0;
-	EGreedy(RandomStart(head), counter);
-	}*/
 
 	system("pause");
 	return 0;
