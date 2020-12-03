@@ -796,6 +796,97 @@ Node* OptimalTile(Node* state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
+Node * TDrift(Node * state, char& action)
+{
+	srand((int)time(0));
+	int rng = rand() % 100 + 1;
+	switch (action)
+	{
+	case ('W'):
+		if (rng <= 70)
+			return state;
+		else if (rng > 70 && rng <= 85)
+		{
+			action = 'N';
+			return state->north;
+		}
+		else
+		{
+			action = 'S';
+			return state->south;
+		}
+		break;
+	case('N'):
+		if (rng <= 70)
+			return state;
+		else if (rng > 70 && rng <= 85)
+		{
+			action = 'W';
+			return state->prev;
+		}
+		else
+		{
+			action = 'E';
+			return state->next;
+		}
+		break;
+	case('E'):
+		if (rng <= 70)
+			return state;
+		else if (rng > 70 && rng <= 85)
+		{
+			action = 'N';
+			return state->north;
+		}
+		else
+		{
+			action = 'S';
+			return state->south;
+		}
+		break;
+	case('S'):
+		if (rng <= 70)
+			return state;
+		else if (rng > 70 && rng <= 85)
+		{
+			action = 'W';
+			return state->prev;
+		}
+		else
+		{
+			action = 'E';
+			return state->next;
+		}
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+float MaxQSA(Node* nextState)
+{
+	float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
+	float* optimalCost = max_element(optimalAction, optimalAction + 4);
+	if (*optimalCost == nextState->W.qValue)
+		return nextState->W.qValue;
+	else if (*optimalCost == nextState->N.qValue)
+		return nextState->N.qValue;
+	else if (*optimalCost == nextState->E.qValue)
+		return nextState->E.qValue;
+	else if (*optimalCost == nextState->S.qValue)
+		return nextState->S.qValue;
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
 void UpdateNQ(Node* state, Node* nextState, char action)
 {
 	float nsa, qsa, test;
@@ -846,7 +937,7 @@ void EGreedy(Node* state, int& counter)
 		nextState = RandomTile(state, action);
 	else
 		nextState = OptimalTile(state, action);
-
+	nextState = TDrift(state, action);
 	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
 		nextState = state;
 	UpdateNQ(state, nextState, action);
@@ -872,3 +963,4 @@ int main() {
 	system("pause");
 	return 0;
 }
+
