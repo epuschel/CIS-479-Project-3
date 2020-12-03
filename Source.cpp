@@ -1012,32 +1012,39 @@ void EGreedy(Node* state, int& counter)
 
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-2-20
-// LAST MODIFIED: 12-2-20
+// LAST MODIFIED: 12-3-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
 string optimalPath(struct Node* state) {
 	string msg = "";
+	float optimalDirection = 0;
+	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
 
 	if (state->W.nValue == state->N.nValue == state->E.nValue == state->S.nValue) {
 		msg = "N/A";
 		return msg;
 	}
-	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
-	float* optimalDirection = max_element(optimalPath, optimalPath + 4);
-	if (*optimalDirection == state->W.nValue)
+
+	for (int i = 0; i < 4; i++) {
+		if (optimalPath[i] > optimalDirection) {
+			optimalDirection = optimalPath[i];
+		}
+	}
+
+	if (optimalDirection == state->W.nValue)
 	{
 		msg = "<<<<";
 	}
-	else if (*optimalDirection == state->N.nValue)
+	else if (optimalDirection == state->N.nValue)
 	{
 		msg = "^^^^";
 	}
-	else if (*optimalDirection == state->E.nValue)
+	else if (optimalDirection == state->E.nValue)
 	{
 		msg = ">>>>";
 	}
-	else if (*optimalDirection == state->S.nValue)
+	else if (optimalDirection == state->S.nValue)
 	{
 		msg = "vvvv";
 	}
