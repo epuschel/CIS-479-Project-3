@@ -671,47 +671,114 @@ Node* RandomES(Node* state, char& action)
 // DESCRIPTION: 
 Node* OptimalTile(Node* state, char& action)
 {
+	int rng = rand() % 100 + 1;
 	if ((state->W.qValue == state->N.qValue == state->S.qValue) && (state->W.qValue > state->E.qValue))
-		return RandomWNS(state, action);
+	{
+		if (rng <= 95)
+			return RandomWNS(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->W.qValue == state->N.qValue == state->E.qValue) && (state->W.qValue > state->S.qValue))
-		return RandomWNE(state, action);
+	{
+		if (rng <= 95)
+			return RandomWNE(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->N.qValue == state->E.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue))
-		return RandomNES(state, action);
+	{
+		if (rng <= 95)
+			return RandomNES(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->W.qValue == state->N.qValue) && (state->W.qValue > state->E.qValue) && (state->W.qValue > state->S.qValue))
-		return RandomWN(state, action);
+	{
+		if (rng <= 95)
+			return RandomWN(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->W.qValue == state->E.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->S.qValue))
-		return RandomWE(state, action);
+	{
+		if (rng <= 95)
+			return RandomWE(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->W.qValue == state->S.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->E.qValue))
-		return RandomWS(state, action);
+	{
+		if (rng <= 95)
+			return RandomWS(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->N.qValue == state->E.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->S.qValue))
-		return RandomNE(state, action);
+	{
+		if (rng <= 95)
+			return RandomNE(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->N.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->E.qValue))
-		return RandomNS(state, action);
+	{
+		if (rng <= 95)
+			return RandomNS(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else if ((state->E.qValue == state->S.qValue) && (state->E.qValue > state->W.qValue) && (state->E.qValue > state->N.qValue))
-		return RandomES(state, action);
+	{
+		if (rng <= 95)
+			return RandomES(state, action);
+		else
+			return RandomTile(state, action);
+	}
 	else
 	{
 		float optimalAction[4] = { state->W.qValue, state->N.qValue, state->E.qValue, state->S.qValue };
 		float* optimalCost = max_element(optimalAction, optimalAction + 4);
 		if (*optimalCost == state->W.qValue)
 		{
-			action = 'W';
-			return state->prev;
+			if (rng <= 95)
+			{
+				action = 'W';
+				return state->prev;
+			}
+			else
+				return RandomTile(state, action);
 		}
 		else if (*optimalCost == state->N.qValue)
 		{
-			action = 'N';
-			return state->north;
+			if (rng <= 95)
+			{
+				action = 'N';
+				return state->north;
+			}
+			else
+				return RandomTile(state, action);
+
 		}
 		else if (*optimalCost = state->E.qValue)
 		{
-			action = 'E';
-			return state->next;
+			if (rng <= 95)
+			{
+				action = 'E';
+				return state->next;
+			}
+			else
+				return RandomTile(state, action);
 		}
 		else if (*optimalCost = state->S.qValue)
 		{
-			action = 'S';
-			return state->south;
+			if (rng <= 95)
+			{
+				action = 'S';
+				return state->south;
+			}
+			else
+				return RandomTile(state, action);
 		}
 		else
 		{
@@ -720,26 +787,6 @@ Node* OptimalTile(Node* state, char& action)
 			exit(0);
 		}
 	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-2-20
-// LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
-float MaxQSA(Node* nextState)
-{
-	float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
-	float* optimalCost = max_element(optimalAction, optimalAction + 4);
-	if (*optimalCost == nextState->W.qValue)
-		return nextState->W.qValue;
-	else if (*optimalCost == nextState->N.qValue)
-		return nextState->N.qValue;
-	else if (*optimalCost == nextState->E.qValue)
-		return nextState->E.qValue;
-	else if (*optimalCost == nextState->S.qValue)
-		return nextState->S.qValue;
 }
 
 // AUTHOR: Ethan Puschell
