@@ -943,6 +943,12 @@ void EGreedy(Node* state, int& counter)
 	UpdateNQ(state, nextState, action);
 	EGreedy(nextState, counter);
 }
+// AUTHOR: Christopher Bourn
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
 string optimalPath(struct Node* state) {
 	string msg = "";
 
