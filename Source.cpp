@@ -8,7 +8,7 @@
 #include <string>
 #include <iomanip>
 #include <ctime>
-#include <algorithm> 
+#include<algorithm>
 using namespace std;
 
 struct Direction {
@@ -89,7 +89,6 @@ Node* locate(struct Node* node, string s) {
 		last = node;
 		node = node->next;
 	}
-	return NULL;
 }
 
 // AUTHOR: Christopher Bourn
@@ -149,11 +148,11 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 }
 
 // AUTHOR: Christopher Bourn
-// CREATION DATE: 
-// LAST MODIFIED:
+// CREATION DATE: 12-1-20
+// LAST MODIFIED: 12-1-20
 // INPUT: 
 // OUTPUT: 
-// DESCRIPTION: 
+// DESCRIPTION: 2nd function finds the node above or below a node
 void fillGrid(struct Node** head) {
 
 	struct Node* goal;
@@ -352,7 +351,7 @@ void printNList(struct Node* node)
 // OUTPUT:
 // DESCRIPTION:
 void printKey(struct Node* node) {
-	cout << left;
+	cout << "Key" << endl << left;
 	int counter = 0;
 	struct Node* last{};
 	while (node != NULL) {
@@ -407,35 +406,36 @@ Node* RandomStart(Node* head)
 		}
 		temp = locate(head, row + to_string(column));
 	}
+	//cout << endl << "Randomly generated key: " << temp->key << endl;
 	return temp;
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
-// LAST MODIFIED: 12-1-20
+// LAST MODIFIED: 12-2-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node* RandomTile(Node* Tile, char& nextDirection)
+Node * RandomTile(Node * state, char& action)
 {
 	int d4 = rand() % 4;
 	switch (d4)
 	{
 	case(0):
-		nextDirection = 'W';
-		return Tile->prev;
+		action = 'W';
+		return state->prev;
 		break;
 	case(1):
-		nextDirection = 'E';
-		return Tile->next;
+		action = 'E';
+		return state->next;
 		break;
 	case(2):
-		nextDirection = 'N';
-		return Tile->north;
+		action = 'N';
+		return state->north;
 		break;
 	case(3):
-		nextDirection = 'S';
-		return Tile->south;
+		action = 'S';
+		return state->south;
 		break;
 	default:
 		cerr << "ERROR: Tile was not randomly chosen." << endl;
@@ -650,11 +650,11 @@ Node * RandomES(Node * state, char& action)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
-// LAST MODIFIED: 12-1-20
+// LAST MODIFIED: 12-2-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node* OptimalTile(Node* Tile, char& nextDirection)
+Node * OptimalTile(Node * state, char& action)
 {
 	if (state->W.qValue == state->N.qValue == state->S.qValue && state->W.qValue > state->E.qValue)
 		return RandomWNS(state, action);
@@ -676,59 +676,34 @@ Node* OptimalTile(Node* Tile, char& nextDirection)
 		return RandomES(state, action);
 	else
 	{
-	float optimalAction[4] = { Tile->W.qValue, Tile->N.qValue, Tile->E.qValue, Tile->S.qValue };
-	float* optimalCost = max_element(optimalAction, optimalAction + 4);
-	if (*optimalCost == Tile->W.qValue)
-	{
-		nextDirection = 'W';
-		return Tile->prev;
-	}
-	else if (*optimalCost == Tile->N.qValue)
-	{
-		nextDirection = 'N';
-		return Tile->north;
-	}
-	else if (*optimalCost = Tile->E.qValue)
-	{
-		nextDirection = 'E';
-		return Tile->next;
-	}
-	else if (*optimalCost = Tile->S.qValue)
-	{
-		nextDirection = 'S';
-		return Tile->south;
-	}
-	else
-	{
-		cerr << "ERROR: Optimal action was not correctly found!" << endl;
-		system("pause");
-		exit(0);
-	}
-	}
-}
-
-// AUTHOR: Ethan Puschell
-// CREATION DATE: 12-2-20
-// LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
-float MaxQSA(Node * nextTile)
-{
-	if (nextTile->W.qValue == nextTile->N.qValue == nextTile->E.qValue == nextTile->S.qValue)
-		return nextTile->W.qValue;
-	else
-	{
-		float optimalAction[4] = { nextTile->W.qValue, nextTile->N.qValue, nextTile->E.qValue, nextTile->S.qValue };
+		float optimalAction[4] = { state->W.qValue, state->N.qValue, state->E.qValue, state->S.qValue };
 		float * optimalCost = max_element(optimalAction, optimalAction + 4);
-		if (*optimalCost == nextTile->W.qValue)
-			return nextTile->W.qValue;
-		else if (*optimalCost == nextTile->N.qValue)
-			return nextTile->N.qValue;
-		else if (*optimalCost = nextTile->E.qValue)
-			return nextTile->E.qValue;
-		else if (*optimalCost = nextTile->S.qValue)
-			return nextTile->S.qValue;
+		if (*optimalCost == state->W.qValue)
+		{
+			action = 'W';
+			return state->prev;
+		}
+		else if (*optimalCost == state->N.qValue)
+		{
+			action = 'N';
+			return state->north;
+		}
+		else if (*optimalCost = state->E.qValue)
+		{
+			action = 'E';
+			return state->next;
+		}
+		else if (*optimalCost = state->S.qValue)
+		{
+			action = 'S';
+			return state->south;
+		}
+		else
+		{
+			cerr << "ERROR: Optimal action was not correctly found!" << endl;
+			system("pause");
+			exit(0);
+		}
 	}
 }
 
@@ -738,7 +713,32 @@ float MaxQSA(Node * nextTile)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
-void UpdateNQ(Node * tile, Node * nextTile, char nextDirection)
+float MaxQSA(Node * nextState)
+{
+	if (nextState->W.qValue == nextState->N.qValue == nextState->E.qValue == nextState->S.qValue)
+		return nextState->W.qValue;
+	else
+	{
+		float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
+		float * optimalCost = max_element(optimalAction, optimalAction + 4);
+		if (*optimalCost == nextState->W.qValue)
+			return nextState->W.qValue;
+		else if (*optimalCost == nextState->N.qValue)
+			return nextState->N.qValue;
+		else if (*optimalCost = nextState->E.qValue)
+			return nextState->E.qValue;
+		else if (*optimalCost = nextState->S.qValue)
+			return nextState->S.qValue;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+void UpdateNQ(Node * state, Node * nextState, char action)
 {
 	float nsa, qsa;
 	switch (action)
@@ -776,7 +776,7 @@ void UpdateNQ(Node * tile, Node * nextTile, char nextDirection)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-void EGreedy(Node * tile, int& counter)
+void EGreedy(Node * state, int& counter)
 {
 	if (state->data == 100 || counter == 100)
 		return;
@@ -797,16 +797,25 @@ void EGreedy(Node * tile, int& counter)
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
-
+	int counter = 0;
 	fillGrid((&head));
 	printKey(head);
 	cout << endl << endl;
+	//EGreedy(RandomStart(head), counter);
+	EGreedy(locate(head, "a4"), counter);
+	/*for (int i = 0; i < 10000; i++)
+	{
+		counter = 0;
+		EGreedy(RandomStart(head), counter);
+	}*/
 	printNList(head);
 	printQList(head);
-	RandomStart(head);
-
-	char test;
-	OptimalTile(locate(head, "a1"), test);
+	//RandomStart(head);
+	/*for (int i = 0; i < 10000; i++)
+	{
+	counter = 0;
+	EGreedy(RandomStart(head), counter);
+	}*/
 
 	system("pause");
 	return 0;
