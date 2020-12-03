@@ -537,6 +537,33 @@ Node* RandomNES(Node* state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
+Node* RandomWES(Node* state, char& action)
+{
+	srand((int)time(0));
+	int d3 = rand() % 3;
+	switch (d3)
+	{
+	case(0):
+		action = 'W';
+		return state->prev;
+		break;
+	case(1):
+		action = 'E';
+		return state->next;
+		break;
+	case(2):
+		action = 'S';
+		return state->south;
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
 Node* RandomWN(Node* state, char& action)
 {
 	srand((int)time(0));
@@ -673,63 +700,90 @@ Node* OptimalTile(Node* state, char& action)
 {
 	srand((int)time(0));
 	int rng = rand() % 100 + 1;
-	if ((state->W.qValue == state->N.qValue == state->S.qValue) && (state->W.qValue > state->E.qValue))
+	if ((state->W.qValue == state->N.qValue) && 
+		(state->W.qValue == state->S.qValue) && 
+		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
 			return RandomWNS(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->N.qValue == state->E.qValue) && (state->W.qValue > state->S.qValue))
+	else if ((state->W.qValue == state->N.qValue) && 
+		(state->W.qValue == state->E.qValue) && 
+		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
 			return RandomWNE(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->N.qValue == state->E.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue))
+	else if ((state->N.qValue == state->E.qValue) &&
+		(state->N.qValue == state->S.qValue) && 
+		(state->N.qValue > state->W.qValue))
 	{
 		if (rng <= 95)
 			return RandomNES(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->N.qValue) && (state->W.qValue > state->E.qValue) && (state->W.qValue > state->S.qValue))
+	else if ((state->W.qValue == state->E.qValue) && 
+		(state->W.qValue == state->S.qValue) && 
+		(state->W.qValue > state->N.qValue))
+	{
+		if (rng <= 95)
+			return RandomWES(state, action);
+		else
+			return RandomTile(state, action);
+	}
+	else if ((state->W.qValue == state->N.qValue) && 
+		(state->W.qValue > state->E.qValue) && 
+		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
 			return RandomWN(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->E.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->S.qValue))
+	else if ((state->W.qValue == state->E.qValue) && 
+		(state->W.qValue > state->N.qValue) && 
+		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
 			return RandomWE(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->S.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->E.qValue))
+	else if ((state->W.qValue == state->S.qValue) && 
+		(state->W.qValue > state->N.qValue) && 
+		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
 			return RandomWS(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->N.qValue == state->E.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->S.qValue))
+	else if ((state->N.qValue == state->E.qValue) && 
+		(state->N.qValue > state->W.qValue) && 
+		(state->N.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
 			return RandomNE(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->N.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->E.qValue))
+	else if ((state->N.qValue == state->S.qValue) && 
+		(state->N.qValue > state->W.qValue) && 
+		(state->N.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
 			return RandomNS(state, action);
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->E.qValue == state->S.qValue) && (state->E.qValue > state->W.qValue) && (state->E.qValue > state->N.qValue))
+	else if ((state->E.qValue == state->S.qValue) && 
+		(state->E.qValue > state->W.qValue) && 
+		(state->E.qValue > state->N.qValue))
 	{
 		if (rng <= 95)
 			return RandomES(state, action);
@@ -804,7 +858,7 @@ Node * TDrift(Node * state, char& action)
 	{
 	case ('W'):
 		if (rng <= 70)
-			return state;
+			return state->prev;
 		else if (rng > 70 && rng <= 85)
 		{
 			action = 'N';
@@ -818,7 +872,7 @@ Node * TDrift(Node * state, char& action)
 		break;
 	case('N'):
 		if (rng <= 70)
-			return state;
+			return state->north;
 		else if (rng > 70 && rng <= 85)
 		{
 			action = 'W';
@@ -832,7 +886,7 @@ Node * TDrift(Node * state, char& action)
 		break;
 	case('E'):
 		if (rng <= 70)
-			return state;
+			return state->next;
 		else if (rng > 70 && rng <= 85)
 		{
 			action = 'N';
@@ -846,7 +900,7 @@ Node * TDrift(Node * state, char& action)
 		break;
 	case('S'):
 		if (rng <= 70)
-			return state;
+			return state->south;
 		else if (rng > 70 && rng <= 85)
 		{
 			action = 'W';
@@ -933,7 +987,13 @@ void EGreedy(Node* state, int& counter)
 	counter++;
 	Node* nextState;
 	char action;
-	if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
+	//if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
+	if ((state->N.qValue == state->W.qValue) && 
+		(state->N.qValue == state->E.qValue) && 
+		(state->N.qValue == state->S.qValue) && 
+		(state->S.qValue == state->E.qValue) && 
+		(state->W.qValue == state->E.qValue) && 
+		(state->W.qValue == state->S.qValue))
 		nextState = RandomTile(state, action);
 	else
 		nextState = OptimalTile(state, action);
@@ -945,6 +1005,7 @@ void EGreedy(Node* state, int& counter)
 	UpdateNQ(state, nextState, action);
 	EGreedy(nextState, counter);
 }
+
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
@@ -984,6 +1045,7 @@ string optimalPath(struct Node* state) {
 	}
 	return msg;
 }
+
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
@@ -1003,4 +1065,3 @@ int main() {
 	system("pause");
 	return 0;
 }
-
