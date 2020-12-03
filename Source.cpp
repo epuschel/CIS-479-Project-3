@@ -943,7 +943,39 @@ void EGreedy(Node* state, int& counter)
 	UpdateNQ(state, nextState, action);
 	EGreedy(nextState, counter);
 }
+string optimalPath(struct Node* state) {
+	string msg = "";
 
+	if (state->W.nValue == state->N.nValue == state->E.nValue == state->S.nValue) {
+		msg = "N/A";
+		return msg;
+	}
+	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
+	float* optimalDirection = max_element(optimalPath, optimalPath + 4);
+	if (*optimalDirection == state->W.nValue)
+	{
+		msg = "<<<<";
+	}
+	else if (*optimalDirection == state->N.nValue)
+	{
+		msg = "^^^^";
+	}
+	else if (*optimalDirection = state->E.nValue)
+	{
+		msg = ">>>>";
+	}
+	else if (*optimalDirection = state->S.nValue)
+	{
+		msg = "vvvv";
+	}
+	else
+	{
+		cerr << "ERROR: Optimal path was not correctly found!" << endl;
+		system("pause");
+		exit(0);
+	}
+	return msg;
+}
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
