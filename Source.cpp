@@ -719,10 +719,6 @@ Node * OptimalTile(Node * state, char& action)
 // DESCRIPTION:
 float MaxQSA(Node * nextState)
 {
-	if (nextState->W.qValue == nextState->N.qValue == nextState->E.qValue == nextState->S.qValue)
-		return nextState->W.qValue;
-	else
-	{
 		float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
 		float * optimalCost = max_element(optimalAction, optimalAction + 4);
 		if (*optimalCost == nextState->W.qValue)
@@ -733,7 +729,6 @@ float MaxQSA(Node * nextState)
 			return nextState->E.qValue;
 		else if (*optimalCost = nextState->S.qValue)
 			return nextState->S.qValue;
-	}
 }
 
 // AUTHOR: Ethan Puschell
