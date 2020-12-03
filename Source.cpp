@@ -253,6 +253,7 @@ void printQList(struct Node* node)
 		}
 		if (directionCounter == 2) {
 			directionCounter = 0;
+			cout << endl;
 		}
 		else {
 			node = last;
@@ -289,7 +290,7 @@ void printNList(struct Node* node)
 					if (node->prev->data == -1)
 						cout << right << setw(14) << "####";
 					else
-						cout << right << setw(3) << "####";
+						cout << right << setw(8) << "####";
 				}
 			}
 			else if (node->key == "c3")
@@ -314,8 +315,10 @@ void printNList(struct Node* node)
 					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1")
 						cout << right << setw(13);
 					else if (node->key == "c4" || node->prev->data == -1)
-						cout << right << setw(11);
-					cout << node->W.nValue << " " << left << setw(12) << node->E.nValue;
+						cout << right << setw(12);
+					else
+						cout << right << setw(6);
+					cout << node->W.nValue << " " << left << setw(7) << node->E.nValue;
 				}
 				if (directionCounter == 2) {
 					if (node->key == "b4" || node->key == "d4")
@@ -336,6 +339,7 @@ void printNList(struct Node* node)
 		}
 		if (directionCounter == 2) {
 			directionCounter = 0;
+			cout << endl;
 		}
 		else {
 			node = last;
