@@ -26,8 +26,8 @@ struct Node {
 	struct Node* south = NULL;
 };
 
-// AUTHOR: Christopher Bourn (and a little bit of Ethan Puschell)
-// CREATION DATE: 
+// AUTHOR: Christopher Bourn 
+// CREATION DATE: 11-24-2020
 // LAST MODIFIED: 12-1-20
 // INPUT: 
 // OUTPUT: 
@@ -74,7 +74,7 @@ void append(struct Node** head_ref, float new_data, string new_key, bool block)
 }
 
 // AUTHOR: Christopher Bourn
-// CREATION DATE: 
+// CREATION DATE: 11-24-2020
 // LAST MODIFIED:
 // INPUT: 
 // OUTPUT: 
@@ -92,7 +92,7 @@ Node* locate(struct Node* node, string s) {
 }
 
 // AUTHOR: Christopher Bourn
-// CREATION DATE: 
+// CREATION DATE: 11-24-2020
 // LAST MODIFIED:
 // INPUT: 
 // OUTPUT: 
@@ -121,7 +121,7 @@ Node* locate(struct Node* node, string s, bool a) {
 }
 
 // AUTHOR: Christopher Bourn
-// CREATION DATE: 
+// CREATION DATE: 11-24-2020
 // LAST MODIFIED:
 // INPUT: 
 // OUTPUT: 
@@ -152,7 +152,7 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 // LAST MODIFIED: 12-1-20
 // INPUT: 
 // OUTPUT: 
-// DESCRIPTION: 2nd function finds the node above or below a node
+// DESCRIPTION: 
 void fillGrid(struct Node** head) {
 
 	struct Node* goal;
@@ -349,7 +349,7 @@ void printNList(struct Node* node)
 }
 
 // AUTHOR: Christopher Bourn
-// CREATION DATE:
+// CREATION DATE: 11-24-2020
 // LAST MODIFIED:
 // INPUT:
 // OUTPUT:
@@ -381,6 +381,7 @@ void printKey(struct Node* node) {
 // DESCRIPTION: Function returns a random node in the quad-linked list to start the calculations.
 Node* RandomStart(Node* head)
 {
+	srand((int)time(0));
 	struct Node* temp = locate(head, "b2");
 	while (temp->data == -1)
 	{
@@ -420,8 +421,9 @@ Node* RandomStart(Node* head)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomTile(Node * state, char& action)
+Node* RandomTile(Node* state, char& action)
 {
+	srand((int)time(0));
 	int d4 = rand() % 4;
 	switch (d4)
 	{
@@ -454,8 +456,9 @@ Node * RandomTile(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomWNS(Node * state, char& action)
+Node* RandomWNS(Node* state, char& action)
 {
+	srand((int)time(0));
 	int d3 = rand() % 3;
 	switch (d3)
 	{
@@ -480,8 +483,9 @@ Node * RandomWNS(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomWNE(Node * state, char& action)
+Node* RandomWNE(Node* state, char& action)
 {
+	srand((int)time(0));
 	int d3 = rand() % 3;
 	switch (d3)
 	{
@@ -506,8 +510,9 @@ Node * RandomWNE(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomNES(Node * state, char& action)
+Node* RandomNES(Node* state, char& action)
 {
+	srand((int)time(0));
 	int d3 = rand() % 3;
 	switch (d3)
 	{
@@ -532,8 +537,9 @@ Node * RandomNES(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomWN(Node * state, char& action)
+Node* RandomWN(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -553,8 +559,9 @@ Node * RandomWN(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomWE(Node * state, char& action)
+Node* RandomWE(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -574,8 +581,9 @@ Node * RandomWE(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomWS(Node * state, char& action)
+Node* RandomWS(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -595,8 +603,9 @@ Node * RandomWS(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomNE(Node * state, char& action)
+Node* RandomNE(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -616,8 +625,9 @@ Node * RandomNE(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomNS(Node * state, char& action)
+Node* RandomNS(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -637,8 +647,9 @@ Node * RandomNS(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * RandomES(Node * state, char& action)
+Node* RandomES(Node* state, char& action)
 {
+	srand((int)time(0));
 	int coin = rand() % 2;
 	if (coin == 0)
 	{
@@ -658,30 +669,30 @@ Node * RandomES(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-Node * OptimalTile(Node * state, char& action)
+Node* OptimalTile(Node* state, char& action)
 {
-	if (state->W.qValue == state->N.qValue == state->S.qValue && state->W.qValue > state->E.qValue)
+	if ((state->W.qValue == state->N.qValue == state->S.qValue) && (state->W.qValue > state->E.qValue))
 		return RandomWNS(state, action);
-	else if (state->W.qValue == state->N.qValue == state->E.qValue && state->W.qValue > state->S.qValue)
+	else if ((state->W.qValue == state->N.qValue == state->E.qValue) && (state->W.qValue > state->S.qValue))
 		return RandomWNE(state, action);
-	else if (state->N.qValue == state->E.qValue == state->S.qValue && state->N.qValue > state->W.qValue)
+	else if ((state->N.qValue == state->E.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue))
 		return RandomNES(state, action);
-	else if (state->W.qValue == state->N.qValue && state->W.qValue > state->E.qValue && state->W.qValue > state->S.qValue)
+	else if ((state->W.qValue == state->N.qValue) && (state->W.qValue > state->E.qValue) && (state->W.qValue > state->S.qValue))
 		return RandomWN(state, action);
-	else if (state->W.qValue == state->E.qValue && state->W.qValue > state->N.qValue && state->W.qValue > state->S.qValue)
+	else if ((state->W.qValue == state->E.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->S.qValue))
 		return RandomWE(state, action);
-	else if (state->W.qValue == state->S.qValue && state->W.qValue > state->N.qValue && state->W.qValue > state->E.qValue)
+	else if ((state->W.qValue == state->S.qValue) && (state->W.qValue > state->N.qValue) && (state->W.qValue > state->E.qValue))
 		return RandomWS(state, action);
-	else if (state->N.qValue == state->E.qValue && state->N.qValue > state->W.qValue && state->N.qValue > state->S.qValue)
+	else if ((state->N.qValue == state->E.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->S.qValue))
 		return RandomNE(state, action);
-	else if (state->N.qValue == state->S.qValue && state->N.qValue > state->W.qValue && state->N.qValue > state->E.qValue)
+	else if ((state->N.qValue == state->S.qValue) && (state->N.qValue > state->W.qValue) && (state->N.qValue > state->E.qValue))
 		return RandomNS(state, action);
-	else if (state->E.qValue == state->S.qValue && state->E.qValue > state->W.qValue && state->E.qValue > state->N.qValue)
+	else if ((state->E.qValue == state->S.qValue) && (state->E.qValue > state->W.qValue) && (state->E.qValue > state->N.qValue))
 		return RandomES(state, action);
 	else
 	{
 		float optimalAction[4] = { state->W.qValue, state->N.qValue, state->E.qValue, state->S.qValue };
-		float * optimalCost = max_element(optimalAction, optimalAction + 4);
+		float* optimalCost = max_element(optimalAction, optimalAction + 4);
 		if (*optimalCost == state->W.qValue)
 		{
 			action = 'W';
@@ -717,18 +728,18 @@ Node * OptimalTile(Node * state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
-float MaxQSA(Node * nextState)
+float MaxQSA(Node* nextState)
 {
-		float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
-		float * optimalCost = max_element(optimalAction, optimalAction + 4);
-		if (*optimalCost == nextState->W.qValue)
-			return nextState->W.qValue;
-		else if (*optimalCost == nextState->N.qValue)
-			return nextState->N.qValue;
-		else if (*optimalCost = nextState->E.qValue)
-			return nextState->E.qValue;
-		else if (*optimalCost = nextState->S.qValue)
-			return nextState->S.qValue;
+	float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
+	float* optimalCost = max_element(optimalAction, optimalAction + 4);
+	if (*optimalCost == nextState->W.qValue)
+		return nextState->W.qValue;
+	else if (*optimalCost == nextState->N.qValue)
+		return nextState->N.qValue;
+	else if (*optimalCost = nextState->E.qValue)
+		return nextState->E.qValue;
+	else if (*optimalCost = nextState->S.qValue)
+		return nextState->S.qValue;
 }
 
 // AUTHOR: Ethan Puschell
@@ -737,33 +748,33 @@ float MaxQSA(Node * nextState)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
-void UpdateNQ(Node * state, Node * nextState, char action)
+void UpdateNQ(Node* state, Node* nextState, char action)
 {
 	float nsa, qsa;
 	switch (action)
 	{
 	case ('W'):
 		state->W.nValue++;
-		nsa = (float) state->W.nValue;
-		qsa = (float) state->W.qValue;
+		nsa = (float)state->W.nValue;
+		qsa = (float)state->W.qValue;
 		state->W.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case ('N'):
 		state->N.nValue++;
-		nsa = (float) state->N.nValue;
-		qsa = (float) state->N.qValue;
+		nsa = (float)state->N.nValue;
+		qsa = (float)state->N.qValue;
 		state->N.qValue = qsa + ((1.0 / nsa) * (-3.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case ('E'):
 		state->E.nValue++;
-		nsa = (float) state->E.nValue;
-		qsa = (float) state->E.qValue;
+		nsa = (float)state->E.nValue;
+		qsa = (float)state->E.qValue;
 		state->E.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	case('S'):
 		state->S.nValue++;
-		nsa = (float) state->S.nValue;
-		qsa = (float) state->S.qValue;
+		nsa = (float)state->S.nValue;
+		qsa = (float)state->S.qValue;
 		state->S.qValue = qsa + ((1.0 / nsa) * (-1.0 + (0.9 * MaxQSA(nextState)) - qsa));
 		break;
 	}
@@ -775,12 +786,12 @@ void UpdateNQ(Node * state, Node * nextState, char action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
-void EGreedy(Node * state, int& counter)
+void EGreedy(Node* state, int& counter)
 {
 	if (state->data == 100 || counter == 100)
 		return;
 	counter++;
-	Node * nextState;
+	Node* nextState;
 	char action;
 	if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
 		nextState = RandomTile(state, action);
