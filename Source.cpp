@@ -186,6 +186,10 @@ void fillGrid(struct Node** head) {
 	reConnectGrid(*head, *head);
 	goal = locate(*head, "c3");
 	goal->data = 100;
+	goal->W.qValue = 100;
+	goal->N.qValue = 100;
+	goal->E.qValue = 100;
+	goal->S.qValue = 100;
 }
 
 // AUTHORS: Christopher Bourn & Ethan Puschell
