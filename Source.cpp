@@ -850,7 +850,7 @@ Node* OptimalTile(Node* state, char& action)
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION:
-Node * TDrift(Node * state, char& action)
+Node* TDrift(Node* state, char& action)
 {
 	srand((int)time(0));
 	int rng = rand() % 100 + 1;
@@ -1029,11 +1029,11 @@ string optimalPath(struct Node* state) {
 	{
 		msg = "^^^^";
 	}
-	else if (*optimalDirection = state->E.nValue)
+	else if (*optimalDirection == state->E.nValue)
 	{
 		msg = ">>>>";
 	}
-	else if (*optimalDirection = state->S.nValue)
+	else if (*optimalDirection == state->S.nValue)
 	{
 		msg = "vvvv";
 	}
@@ -1045,7 +1045,31 @@ string optimalPath(struct Node* state) {
 	}
 	return msg;
 }
-
+// AUTHOR: Christopher Bourn
+// CREATION DATE: 12-3-20
+// LAST MODIFIED: 12-3-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION:
+void printPath(struct Node* node) {
+	cout << "Optimal path" << endl << left;
+	int counter = 0;
+	struct Node* last{};
+	while (node != NULL) {
+		if (counter == 5 || counter == 10 || counter == 15 || counter == 20 || counter == 25) {
+			cout << endl;
+		}
+		if (node->data == -1) {
+			cout << setw(8) << "####" << " ";
+		}
+		else
+			cout << setw(8) << optimalPath(node) << " ";
+		last = node;
+		node = node->next;
+		counter++;
+	}
+	cout << endl;
+}
 int main() {
 	srand((int)time(0));
 	Node* head = NULL;
@@ -1061,6 +1085,7 @@ int main() {
 	}
 	printNList(head);
 	printQList(head);
+	printPath(head);
 
 	system("pause");
 	return 0;
