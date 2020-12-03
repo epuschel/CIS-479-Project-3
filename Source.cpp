@@ -445,6 +445,210 @@ Node* RandomTile(Node* Tile, char& nextDirection)
 }
 
 // AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomWNS(Node * state, char& action)
+{
+	int d3 = rand() % 3;
+	switch (d3)
+	{
+	case(0):
+		action = 'W';
+		return state->prev;
+		break;
+	case(1):
+		action = 'N';
+		return state->north;
+		break;
+	case(2):
+		action = 'S';
+		return state->south;
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomWNE(Node * state, char& action)
+{
+	int d3 = rand() % 3;
+	switch (d3)
+	{
+	case(0):
+		action = 'W';
+		return state->prev;
+		break;
+	case(1):
+		action = 'N';
+		return state->north;
+		break;
+	case(2):
+		action = 'E';
+		return state->next;
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomNES(Node * state, char& action)
+{
+	int d3 = rand() % 3;
+	switch (d3)
+	{
+	case(0):
+		action = 'N';
+		return state->north;
+		break;
+	case(1):
+		action = 'E';
+		return state->next;
+		break;
+	case(2):
+		action = 'S';
+		return state->south;
+		break;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomWN(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'W';
+		return state->prev;
+	}
+	else
+	{
+		action = 'N';
+		return state->north;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomWE(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'W';
+		return state->prev;
+	}
+	else
+	{
+		action = 'E';
+		return state->next;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomWS(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'W';
+		return state->prev;
+	}
+	else
+	{
+		action = 'S';
+		return state->south;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomNE(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'N';
+		return state->north;
+	}
+	else
+	{
+		action = 'E';
+		return state->next;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomNS(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'N';
+		return state->north;
+	}
+	else
+	{
+		action = 'S';
+		return state->south;
+	}
+}
+
+// AUTHOR: Ethan Puschell
+// CREATION DATE: 12-2-20
+// LAST MODIFIED: 12-2-20
+// INPUT: 
+// OUTPUT: 
+// DESCRIPTION: 
+Node * RandomES(Node * state, char& action)
+{
+	int coin = rand() % 2;
+	if (coin == 0)
+	{
+		action = 'E';
+		return state->next;
+	}
+	else
+	{
+		action = 'S';
+		return state->south;
+	}
+}
+
+// AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-1-20
 // INPUT: 
@@ -452,6 +656,26 @@ Node* RandomTile(Node* Tile, char& nextDirection)
 // DESCRIPTION: 
 Node* OptimalTile(Node* Tile, char& nextDirection)
 {
+	if (state->W.qValue == state->N.qValue == state->S.qValue && state->W.qValue > state->E.qValue)
+		return RandomWNS(state, action);
+	else if (state->W.qValue == state->N.qValue == state->E.qValue && state->W.qValue > state->S.qValue)
+		return RandomWNE(state, action);
+	else if (state->N.qValue == state->E.qValue == state->S.qValue && state->N.qValue > state->W.qValue)
+		return RandomNES(state, action);
+	else if (state->W.qValue == state->N.qValue && state->W.qValue > state->E.qValue && state->W.qValue > state->S.qValue)
+		return RandomWN(state, action);
+	else if (state->W.qValue == state->E.qValue && state->W.qValue > state->N.qValue && state->W.qValue > state->S.qValue)
+		return RandomWE(state, action);
+	else if (state->W.qValue == state->S.qValue && state->W.qValue > state->N.qValue && state->W.qValue > state->E.qValue)
+		return RandomWS(state, action);
+	else if (state->N.qValue == state->E.qValue && state->N.qValue > state->W.qValue && state->N.qValue > state->S.qValue)
+		return RandomNE(state, action);
+	else if (state->N.qValue == state->S.qValue && state->N.qValue > state->W.qValue && state->N.qValue > state->E.qValue)
+		return RandomNS(state, action);
+	else if (state->E.qValue == state->S.qValue && state->E.qValue > state->W.qValue && state->E.qValue > state->N.qValue)
+		return RandomES(state, action);
+	else
+	{
 	float optimalAction[4] = { Tile->W.qValue, Tile->N.qValue, Tile->E.qValue, Tile->S.qValue };
 	float* optimalCost = max_element(optimalAction, optimalAction + 4);
 	if (*optimalCost == Tile->W.qValue)
@@ -479,6 +703,7 @@ Node* OptimalTile(Node* Tile, char& nextDirection)
 		cerr << "ERROR: Optimal action was not correctly found!" << endl;
 		system("pause");
 		exit(0);
+	}
 	}
 }
 
@@ -515,32 +740,32 @@ float MaxQSA(Node * nextTile)
 // DESCRIPTION:
 void UpdateNQ(Node * tile, Node * nextTile, char nextDirection)
 {
-	int nsa, qsa;
-	switch (nextDirection)
+	float nsa, qsa;
+	switch (action)
 	{
 	case ('W'):
-		tile->W.nValue++;
-		nsa = tile->W.nValue;
-		qsa = tile->W.qValue;
-		tile->W.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextTile) - qsa);
+		state->W.nValue++;
+		nsa = state->W.nValue * 1.0;
+		qsa = state->W.qValue * 1.0;
+		state->W.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextState) - qsa);
 		break;
 	case ('N'):
-		tile->N.nValue++;
-		nsa = tile->N.nValue;
-		qsa = tile->N.qValue;
-		tile->W.qValue = qsa + (1 / nsa) * (-3 + 0.9 * MaxQSA(nextTile) - qsa);
+		state->N.nValue++;
+		nsa = state->N.nValue * 1.0;
+		qsa = state->N.qValue * 1.0;
+		state->N.qValue = qsa + (1 / nsa) * (-3 + 0.9 * MaxQSA(nextState) - qsa);
 		break;
 	case ('E'):
-		tile->E.nValue++;
-		nsa = tile->E.nValue;
-		qsa = tile->E.qValue;
-		tile->E.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextTile) - qsa);
+		state->E.nValue++;
+		nsa = state->E.nValue * 1.0;
+		qsa = state->E.qValue * 1.0;
+		state->E.qValue = qsa + (1 / nsa) * (-2 + 0.9 * MaxQSA(nextState) - qsa);
 		break;
 	case('S'):
-		tile->S.nValue++;
-		nsa = tile->S.nValue;
-		qsa = tile->S.qValue;
-		tile->S.qValue = qsa + (1 / nsa) * (-1 + 0.9 * MaxQSA(nextTile) - qsa);
+		state->S.nValue++;
+		nsa = state->S.nValue * 1.0;
+		qsa = state->S.qValue * 1.0;
+		state->S.qValue = qsa + (1 / nsa) * (-1 + 0.9 * MaxQSA(nextState) - qsa);
 		break;
 	}
 }
@@ -553,21 +778,20 @@ void UpdateNQ(Node * tile, Node * nextTile, char nextDirection)
 // DESCRIPTION: 
 void EGreedy(Node * tile, int& counter)
 {
-	if (tile->data == 100 || counter == 100)
+	if (state->data == 100 || counter == 100)
 		return;
 	counter++;
-	Node * nextTile;
-	char nextDirection;
-	int rsa, nsa;
-	if (tile->W.qValue == tile->N.qValue == tile->E.qValue == tile->S.qValue)
-		nextTile = RandomTile(tile, nextDirection);
+	Node * nextState;
+	char action;
+	if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
+		nextState = RandomTile(state, action);
 	else
-		nextTile = OptimalTile(tile, nextDirection);
+		nextState = OptimalTile(state, action);
 
-	if (nextTile == NULL || nextTile->data == -1)
-		nextTile = tile;
-	UpdateNQ(tile, nextTile, nextDirection);
-	EGreedy(nextTile, counter);
+	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
+		nextState = state;
+	UpdateNQ(state, nextState, action);
+	EGreedy(nextState, counter);
 }
 
 int main() {
