@@ -8,7 +8,6 @@
 #include <string>
 #include <iomanip>
 #include <ctime>
-#include<algorithm>
 using namespace std;
 
 struct Direction {
@@ -690,7 +689,7 @@ Node* RandomES(Node* state, char& action)
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
-// LAST MODIFIED: 12-2-20
+// LAST MODIFIED: 12-3-20
 // INPUT: 
 // OUTPUT: 
 // DESCRIPTION: 
@@ -698,8 +697,8 @@ Node* OptimalTile(Node* state, char& action)
 {
 	srand((int)time(0));
 	int rng = rand() % 100 + 1;
-	if ((state->W.qValue == state->N.qValue) && 
-		(state->W.qValue == state->S.qValue) && 
+	if ((state->W.qValue == state->N.qValue) &&
+		(state->W.qValue == state->S.qValue) &&
 		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
@@ -707,8 +706,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->N.qValue) && 
-		(state->W.qValue == state->E.qValue) && 
+	else if ((state->W.qValue == state->N.qValue) &&
+		(state->W.qValue == state->E.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
@@ -717,7 +716,7 @@ Node* OptimalTile(Node* state, char& action)
 			return RandomTile(state, action);
 	}
 	else if ((state->N.qValue == state->E.qValue) &&
-		(state->N.qValue == state->S.qValue) && 
+		(state->N.qValue == state->S.qValue) &&
 		(state->N.qValue > state->W.qValue))
 	{
 		if (rng <= 95)
@@ -725,8 +724,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->E.qValue) && 
-		(state->W.qValue == state->S.qValue) && 
+	else if ((state->W.qValue == state->E.qValue) &&
+		(state->W.qValue == state->S.qValue) &&
 		(state->W.qValue > state->N.qValue))
 	{
 		if (rng <= 95)
@@ -734,8 +733,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->N.qValue) && 
-		(state->W.qValue > state->E.qValue) && 
+	else if ((state->W.qValue == state->N.qValue) &&
+		(state->W.qValue > state->E.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
@@ -743,8 +742,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->E.qValue) && 
-		(state->W.qValue > state->N.qValue) && 
+	else if ((state->W.qValue == state->E.qValue) &&
+		(state->W.qValue > state->N.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
@@ -752,8 +751,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->W.qValue == state->S.qValue) && 
-		(state->W.qValue > state->N.qValue) && 
+	else if ((state->W.qValue == state->S.qValue) &&
+		(state->W.qValue > state->N.qValue) &&
 		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
@@ -761,8 +760,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->N.qValue == state->E.qValue) && 
-		(state->N.qValue > state->W.qValue) && 
+	else if ((state->N.qValue == state->E.qValue) &&
+		(state->N.qValue > state->W.qValue) &&
 		(state->N.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
@@ -770,8 +769,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->N.qValue == state->S.qValue) && 
-		(state->N.qValue > state->W.qValue) && 
+	else if ((state->N.qValue == state->S.qValue) &&
+		(state->N.qValue > state->W.qValue) &&
 		(state->N.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
@@ -779,8 +778,8 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else if ((state->E.qValue == state->S.qValue) && 
-		(state->E.qValue > state->W.qValue) && 
+	else if ((state->E.qValue == state->S.qValue) &&
+		(state->E.qValue > state->W.qValue) &&
 		(state->E.qValue > state->N.qValue))
 	{
 		if (rng <= 95)
@@ -788,57 +787,59 @@ Node* OptimalTile(Node* state, char& action)
 		else
 			return RandomTile(state, action);
 	}
-	else
+	else if ((state->W.qValue > state->N.qValue) &&
+		(state->W.qValue > state->E.qValue) &&
+		(state->W.qValue > state->S.qValue))
 	{
-		float optimalAction[4] = { state->W.qValue, state->N.qValue, state->E.qValue, state->S.qValue };
-		float* optimalCost = max_element(optimalAction, optimalAction + 4);
-		if (*optimalCost == state->W.qValue)
+		if (rng <= 95)
 		{
-			if (rng <= 95)
-			{
-				action = 'W';
-				return state->prev;
-			}
-			else
-				return RandomTile(state, action);
-		}
-		else if (*optimalCost == state->N.qValue)
-		{
-			if (rng <= 95)
-			{
-				action = 'N';
-				return state->north;
-			}
-			else
-				return RandomTile(state, action);
-
-		}
-		else if (*optimalCost = state->E.qValue)
-		{
-			if (rng <= 95)
-			{
-				action = 'E';
-				return state->next;
-			}
-			else
-				return RandomTile(state, action);
-		}
-		else if (*optimalCost = state->S.qValue)
-		{
-			if (rng <= 95)
-			{
-				action = 'S';
-				return state->south;
-			}
-			else
-				return RandomTile(state, action);
+			action = 'W';
+			return state->prev;
 		}
 		else
+			return RandomTile(state, action);
+	}
+	else if ((state->N.qValue > state->W.qValue) &&
+		(state->N.qValue > state->E.qValue) &&
+		(state->N.qValue > state->S.qValue))
+	{
+		if (rng <= 95)
 		{
-			cerr << "ERROR: Optimal action was not correctly found!" << endl;
-			system("pause");
-			exit(0);
+			action = 'N';
+			return state->north;
 		}
+		else
+			return RandomTile(state, action);
+	}
+	else if ((state->E.qValue > state->W.qValue) &&
+		(state->E.qValue > state->N.qValue) &&
+		(state->E.qValue > state->S.qValue))
+	{
+		if (rng <= 95)
+		{
+			action = 'E';
+			return state->next;
+		}
+		else
+			return RandomTile(state, action);
+	}
+	else if ((state->S.qValue > state->W.qValue) &&
+		(state->S.qValue > state->N.qValue) &&
+		(state->S.qValue > state->E.qValue))
+	{
+		if (rng <= 95)
+		{
+			action = 'S';
+			return state->south;
+		}
+		else
+			return RandomTile(state, action);
+	}
+	else
+	{
+		cerr << "ERROR: Optimal action was not correctly found!" << endl;
+		system("pause");
+		exit(0);
 	}
 }
 
@@ -986,11 +987,11 @@ void EGreedy(Node* state, int& counter)
 	Node* nextState;
 	char action;
 	//if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
-	if ((state->N.qValue == state->W.qValue) && 
-		(state->N.qValue == state->E.qValue) && 
-		(state->N.qValue == state->S.qValue) && 
-		(state->S.qValue == state->E.qValue) && 
-		(state->W.qValue == state->E.qValue) && 
+	if ((state->N.qValue == state->W.qValue) &&
+		(state->N.qValue == state->E.qValue) &&
+		(state->N.qValue == state->S.qValue) &&
+		(state->S.qValue == state->E.qValue) &&
+		(state->W.qValue == state->E.qValue) &&
 		(state->W.qValue == state->S.qValue))
 		nextState = RandomTile(state, action);
 	else
