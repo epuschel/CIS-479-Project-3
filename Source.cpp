@@ -671,6 +671,7 @@ Node* RandomES(Node* state, char& action)
 // DESCRIPTION: 
 Node* OptimalTile(Node* state, char& action)
 {
+	srand((int)time(0));
 	int rng = rand() % 100 + 1;
 	if ((state->W.qValue == state->N.qValue == state->S.qValue) && (state->W.qValue > state->E.qValue))
 	{
