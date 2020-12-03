@@ -216,9 +216,9 @@ void printQList(struct Node* node)
 				}
 				else {
 					if (node->prev->data == -1)
-						cout << right << setw(13) << "####";
+						cout << right << setw(13) << "#### ";
 					else
-						cout << right << setw(11) << "####";
+						cout << right << setw(8) << "#### ";
 				}
 			}
 			else if (node->key == "c3")
@@ -230,18 +230,18 @@ void printQList(struct Node* node)
 			}
 			else {
 				if (directionCounter == 0) {
-					cout << "         " << fixed << setprecision(2) << node->N.qValue;
+					cout << right << setw(13) << fixed << setprecision(2) << node->N.qValue;
 				}
 				if (directionCounter == 1)
 				{
 					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "c4" || node->key == "d1" || node->key == "e1" || node->key == "f1" || node->prev->data == -1)
-						cout << "      ";
+						cout << right << setw(10);
 					else
-						cout << "    ";
-					cout << node->W.qValue << " " << node->E.qValue;
+						cout << right << setw(5);
+					cout << node->W.qValue << " " << left << setw(7) << node->E.qValue;
 				}
 				if (directionCounter == 2) {
-					cout << "         " << fixed << setprecision(2) << node->S.qValue;
+					cout << right << setw(13) << fixed << setprecision(2) << node->S.qValue;
 				}
 			}
 
@@ -283,49 +283,47 @@ void printNList(struct Node* node)
 		{
 			if (node->data == -1) {
 				if (directionCounter == 0 || directionCounter == 2) {
-					cout << "             ";
+					cout << "                 ";
 				}
 				else {
 					if (node->prev->data == -1)
-						cout << right << setw(10) << "####";
+						cout << right << setw(14) << "####";
 					else
-						cout << right << setw(11) << "####";
+						cout << right << setw(3) << "####";
 				}
 			}
 			else if (node->key == "c3")
 			{
 				if (directionCounter == 0 || directionCounter == 2)
-					cout << "       ";
+					cout << "           ";
 				else
-					cout << right << setw(10) << "+100";
+					cout << right << setw(14) << "+100";
 			}
 			else {
 				if (directionCounter == 0) {
 					if (node->key == "b4" || node->key == "d4")
-						cout << "   ";
+						cout << right << setw(8);
 					else if (node->key == "c3" || node->key == "e3")
-						cout << "      ";
+						cout << right << setw(11);
 					else
-						cout << "         ";
+						cout << right << setw(14);
 					cout << fixed << setprecision(2) << node->N.nValue;
 				}
 				if (directionCounter == 1)
 				{
 					if (node->key == "a1" || node->key == "b1" || node->key == "c1" || node->key == "d1" || node->key == "e1" || node->key == "f1")
-						cout << "        ";
+						cout << right << setw(13);
 					else if (node->key == "c4" || node->prev->data == -1)
-						cout << "      ";
-					else
-						cout << "       ";
-					cout << node->W.nValue << " " << node->E.nValue;
+						cout << right << setw(11);
+					cout << node->W.nValue << " " << left << setw(12) << node->E.nValue;
 				}
 				if (directionCounter == 2) {
 					if (node->key == "b4" || node->key == "d4")
-						cout << "   ";
+						cout << right << setw(8);
 					else if (node->key == "c3" || node->key == "e3")
-						cout << "      ";
+						cout << right << setw(11);
 					else
-						cout << "         ";
+						cout << right << setw(14);
 					cout << fixed << setprecision(2) << node->S.nValue;
 				}
 			}
