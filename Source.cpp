@@ -1,7 +1,8 @@
 /*
 *Authors: Christopher Bourn & Ethan Puschell
 *Creation Date: 11-24-20
-*Modification Date: 12-3-20
+*Modification Date: 12-1-20
+*Purpose: Program utilizes an Epsilon-Greedy algorithm and Q-Learning in order to iterate through a maze in an attempt to find a goal node. 
 */
 #include <iostream>
 #include <string>
@@ -195,7 +196,7 @@ void fillGrid(struct Node** head) {
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-1-20
 // INPUT: Pointer to the head node.
-// OUTPUT: Q-values for the maze's tiles and directions
+// OUTPUT: Q-values for the maze's tiles and directions.
 // DESCRIPTION: Function prints out the Q-values given for each tile and direction in the maze.
 void printQList(struct Node* node)
 {
@@ -267,7 +268,7 @@ void printQList(struct Node* node)
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-1-20
 // INPUT: Pointer to the head node.
-// OUTPUT: N-values for the maze's tiles and directions
+// OUTPUT: N-values for the maze's tiles and directions.
 // DESCRIPTION: Function prints out the N-values given for each tile and direction in the maze.
 void printNList(struct Node* node)
 {
@@ -382,14 +383,14 @@ void printKey(struct Node* node) {
 // DESCRIPTION: Function returns a random node in the quad-linked list to start the calculations.
 Node* RandomStart(Node* head)
 {
-	srand((int)time(0));
-	struct Node* temp = locate(head, "b2");
-	while (temp->data == -1)
+	srand((int)time(0));						//Seeds the random function.
+	struct Node* temp = locate(head, "b2");		//Set the temporary node equal to b2, which is an obstacle and therefore its data value is equal to -1
+	while (temp->data == -1)					//While loop that iterates until a Node that is not an obstacle is found
 	{
-		int letter = rand() % 6;
-		int column = rand() % 5 + 1;
-		string row, startKey;
-		switch (letter)
+		int letter = rand() % 6;				//Initialize letter to a value between 0-5
+		int column = rand() % 5 + 1;			//Initialize column to a value between 1 - 5
+		string row, startKey;					//Strings that will hold the row and the complete start key.
+		switch (letter)							//Switch for letter that will determine which row the function will start in (from a - e).
 		{
 		case 0:
 			row = "a";
@@ -410,23 +411,22 @@ Node* RandomStart(Node* head)
 			row = "f";
 			break;
 		}
-		temp = locate(head, row + to_string(column));
+		temp = locate(head, row + to_string(column));	//Once a non-obstacle Node has been chosen, set the temp equal to that Node.
 	}
-	//cout << endl << "Randomly generated key: " << temp->key << endl;
-	return temp;
+	return temp;										//Returns the temp node to start the E-Greedy algorithm.
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the char for the action.
+// OUTPUT: Determines the action and next state for E-Greedy.
+// DESCRIPTION: Function randomly chooses an action and new state for the E-Greedy algorithm.
 Node* RandomTile(Node* state, char& action)
 {
-	srand((int)time(0));
-	int d4 = rand() % 4;
-	switch (d4)
+	srand((int)time(0));										//Seed the random function.
+	int d4 = rand() % 4;										//Roll a d4 to see what direction will be chosen.
+	switch (d4)													//Switch that will determine the action and next state for E-Greedy.
 	{
 	case(0):
 		action = 'W';
@@ -444,7 +444,7 @@ Node* RandomTile(Node* state, char& action)
 		action = 'S';
 		return state->south;
 		break;
-	default:
+	default:													//If the d4 fails to roll, give an error.
 		cerr << "ERROR: Tile was not randomly chosen." << endl;
 		system("pause");
 		exit(0);
@@ -454,14 +454,14 @@ Node* RandomTile(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West, North, or South.
 Node* RandomWNS(Node* state, char& action)
 {
-	srand((int)time(0));
-	int d3 = rand() % 3;
-	switch (d3)
+	srand((int)time(0));					//Seed the random function
+	int d3 = rand() % 3;					//Roll a d3 (doesn't exist, but for the sake of computer science pretend it does).
+	switch (d3)								//Switch that checks the result of the roll and whether the next state and action is West, North, or South.
 	{
 	case(0):
 		action = 'W';
@@ -481,14 +481,14 @@ Node* RandomWNS(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West, North, or East.
 Node* RandomWNE(Node* state, char& action)
 {
-	srand((int)time(0));
-	int d3 = rand() % 3;
-	switch (d3)
+	srand((int)time(0));				//Seed the random function
+	int d3 = rand() % 3;				//Roll a d3
+	switch (d3)							//Switch that checks the result of the roll and whether the next state and action is West, North, or East.
 	{
 	case(0):
 		action = 'W';
@@ -508,14 +508,14 @@ Node* RandomWNE(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is North, East, or South.
 Node* RandomNES(Node* state, char& action)
 {
-	srand((int)time(0));
-	int d3 = rand() % 3;
-	switch (d3)
+	srand((int)time(0));				//Seed the random function
+	int d3 = rand() % 3;				//Roll a d3
+	switch (d3)							//Switch that checks the result of the roll and whether the next state and action is North, East, or South.
 	{
 	case(0):
 		action = 'N';
@@ -535,14 +535,14 @@ Node* RandomNES(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West, East, or South.
 Node* RandomWES(Node* state, char& action)
 {
-	srand((int)time(0));
-	int d3 = rand() % 3;
-	switch (d3)
+	srand((int)time(0));				//Seed the random function
+	int d3 = rand() % 3;				//Roll a d3
+	switch (d3)							//Switch that checks the result of the roll and whether the next state and action is North, East, or South.
 	{
 	case(0):
 		action = 'W';
@@ -562,14 +562,14 @@ Node* RandomWES(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West or North.
 Node* RandomWN(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is West or North.
 	{
 		action = 'W';
 		return state->prev;
@@ -584,14 +584,14 @@ Node* RandomWN(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West or East.
 Node* RandomWE(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is West or East.
 	{
 		action = 'W';
 		return state->prev;
@@ -606,14 +606,14 @@ Node* RandomWE(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is West or South.
 Node* RandomWS(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is West or South.
 	{
 		action = 'W';
 		return state->prev;
@@ -628,14 +628,14 @@ Node* RandomWS(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is North or East. 
 Node* RandomNE(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is North or East.
 	{
 		action = 'N';
 		return state->north;
@@ -650,14 +650,14 @@ Node* RandomNE(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is North or South. 
 Node* RandomNS(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is North or South.
 	{
 		action = 'N';
 		return state->north;
@@ -672,14 +672,14 @@ Node* RandomNS(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: The state Node and the action char.
+// OUTPUT: Returns the next state and action.
+// DESCRIPTION: Function randomly determines if the action and next state is East or South. 
 Node* RandomES(Node* state, char& action)
 {
-	srand((int)time(0));
-	int coin = rand() % 2;
-	if (coin == 0)
+	srand((int)time(0));				//Seed the random function
+	int coin = rand() % 2;				//Flip a coin
+	if (coin == 0)						//Switch that checks the result of the coin flip and whether the next state and action is East or South.
 	{
 		action = 'E';
 		return state->next;
@@ -694,154 +694,154 @@ Node* RandomES(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-3-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: State and action.
+// OUTPUT: Optimal or random tile.
+// DESCRIPTION: Function determines the optimal tile, and uses the 95% probability to determine whether it chooses an optimal action or a random action.
 Node* OptimalTile(Node* state, char& action)
 {
-	srand((int)time(0));
-	int rng = rand() % 100 + 1;
-	if ((state->W.qValue == state->N.qValue) &&
+	srand((int)time(0));							//Seed the random function.
+	int rng = rand() % 100 + 1;						//Initialize rng that will be in the range of 1-100 for the probability that the optimal or random action is chosen.
+	if ((state->W.qValue == state->N.qValue) &&		//If West, North, and South are the optimal actions
 		(state->W.qValue == state->S.qValue) &&
 		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
-			return RandomWNS(state, action);
+			return RandomWNS(state, action);		//95% chance that either West, North, or South are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);		//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue == state->N.qValue) &&
+	else if ((state->W.qValue == state->N.qValue) &&	//If West, North, and East are the optimal actions
 		(state->W.qValue == state->E.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
-			return RandomWNE(state, action);
+			return RandomWNE(state, action);			//95% chance that either West, North, or East are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->N.qValue == state->E.qValue) &&
+	else if ((state->N.qValue == state->E.qValue) &&	//If North, East, and South are the optimal actions
 		(state->N.qValue == state->S.qValue) &&
 		(state->N.qValue > state->W.qValue))
 	{
 		if (rng <= 95)
-			return RandomNES(state, action);
+			return RandomNES(state, action);			//95% chance that North, East, and South are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue == state->E.qValue) &&
+	else if ((state->W.qValue == state->E.qValue) &&	//If West, East, and South are the optimal actions
 		(state->W.qValue == state->S.qValue) &&
 		(state->W.qValue > state->N.qValue))
 	{
 		if (rng <= 95)
-			return RandomWES(state, action);
+			return RandomWES(state, action);			//95% chance that West, East, or South are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue == state->N.qValue) &&
+	else if ((state->W.qValue == state->N.qValue) &&	//If West and North are the optimal actions
 		(state->W.qValue > state->E.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
-			return RandomWN(state, action);
+			return RandomWN(state, action);				//95% chance that West or North are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue == state->E.qValue) &&
+	else if ((state->W.qValue == state->E.qValue) &&	//If West and East are the optimal actions
 		(state->W.qValue > state->N.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
-			return RandomWE(state, action);
+			return RandomWE(state, action);				//95% chance that West or North are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue == state->S.qValue) &&
+	else if ((state->W.qValue == state->S.qValue) &&	//If West and South are optimal actions
 		(state->W.qValue > state->N.qValue) &&
 		(state->W.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
-			return RandomWS(state, action);
+			return RandomWS(state, action);				//95% chance that West or South are chosen.
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->N.qValue == state->E.qValue) &&
+	else if ((state->N.qValue == state->E.qValue) &&	//If North and East are optimal actions
 		(state->N.qValue > state->W.qValue) &&
 		(state->N.qValue > state->S.qValue))
 	{
 		if (rng <= 95)
-			return RandomNE(state, action);
+			return RandomNE(state, action);				//95% chance that North and East are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->N.qValue == state->S.qValue) &&
+	else if ((state->N.qValue == state->S.qValue) &&	//If North and South are optimal actions
 		(state->N.qValue > state->W.qValue) &&
 		(state->N.qValue > state->E.qValue))
 	{
 		if (rng <= 95)
-			return RandomNS(state, action);
+			return RandomNS(state, action);				//95% chance that North or South are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->E.qValue == state->S.qValue) &&
+	else if ((state->E.qValue == state->S.qValue) &&	//If East and South are optimal actions
 		(state->E.qValue > state->W.qValue) &&
 		(state->E.qValue > state->N.qValue))
 	{
 		if (rng <= 95)
-			return RandomES(state, action);
+			return RandomES(state, action);				//95% chance that East or South are chosen
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->W.qValue > state->N.qValue) &&
+	else if ((state->W.qValue > state->N.qValue) &&		//If West is the optimal action
 		(state->W.qValue > state->E.qValue) &&
 		(state->W.qValue > state->S.qValue))
 	{
-		if (rng <= 95)
+		if (rng <= 95)									//95% chance that West is chosen
 		{
 			action = 'W';
 			return state->prev;
 		}
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance a random action is chosen.
 	}
-	else if ((state->N.qValue > state->W.qValue) &&
+	else if ((state->N.qValue > state->W.qValue) &&		//If North is the optimal action
 		(state->N.qValue > state->E.qValue) &&
 		(state->N.qValue > state->S.qValue))
 	{
-		if (rng <= 95)
+		if (rng <= 95)									//95% chance that North is chosen
 		{
 			action = 'N';
 			return state->north;
 		}
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->E.qValue > state->W.qValue) &&
+	else if ((state->E.qValue > state->W.qValue) &&		//If East is the optimal action
 		(state->E.qValue > state->N.qValue) &&
 		(state->E.qValue > state->S.qValue))
 	{
-		if (rng <= 95)
+		if (rng <= 95)									//95% chance that East is chosen
 		{
 			action = 'E';
 			return state->next;
 		}
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
-	else if ((state->S.qValue > state->W.qValue) &&
+	else if ((state->S.qValue > state->W.qValue) &&		//If South is the optimal action
 		(state->S.qValue > state->N.qValue) &&
 		(state->S.qValue > state->E.qValue))
 	{
-		if (rng <= 95)
+		if (rng <= 95)									//95% chance that South is chosen
 		{
 			action = 'S';
 			return state->south;
 		}
 		else
-			return RandomTile(state, action);
+			return RandomTile(state, action);			//5% chance that a random action is chosen.
 	}
 	else
 	{
-		cerr << "ERROR: Optimal action was not correctly found!" << endl;
+		cerr << "ERROR: Optimal action was not found." << endl;		//If no tile is the optimal action, there exists an error.
 		system("pause");
 		exit(0);
 	}
@@ -850,68 +850,68 @@ Node* OptimalTile(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: State and action.
+// OUTPUT: Node and updated action.
+// DESCRIPTION: Function calculates the probability of drift to the left or right perpendicular to the action of the E-Greedy algorithm.
 Node* TDrift(Node* state, char& action)
 {
-	srand((int)time(0));
-	int rng = rand() % 100 + 1;
-	switch (action)
+	srand((int)time(0));					//Seed the random function.
+	int rng = rand() % 100 + 1;				//Initialize rng from range 1-100.
+	switch (action)							//Switch that checks what the current action is.
 	{
-	case ('W'):
+	case ('W'):								//If the action is West
 		if (rng <= 70)
-			return state->prev;
-		else if (rng > 70 && rng <= 85)
+			return state->prev;				//70% chance the next state remains West
+		else if (rng > 70 && rng <= 85)		//15% chance of drifting to the North
 		{
 			action = 'N';
 			return state->north;
 		}
 		else
 		{
-			action = 'S';
+			action = 'S';					//15% chance of drifting to the South.
 			return state->south;
 		}
 		break;
-	case('N'):
-		if (rng <= 70)
+	case('N'):								//If the action is North
+		if (rng <= 70)						//70% chance the state remains North
 			return state->north;
 		else if (rng > 70 && rng <= 85)
 		{
-			action = 'W';
+			action = 'W';					//15% chance of drifting to the West
 			return state->prev;
 		}
 		else
 		{
-			action = 'E';
+			action = 'E';					//15% chance of drifting to the East.
 			return state->next;
 		}
 		break;
-	case('E'):
-		if (rng <= 70)
+	case('E'):								//If the action is East
+		if (rng <= 70)						//70% chance the next state remains East.
 			return state->next;
 		else if (rng > 70 && rng <= 85)
 		{
-			action = 'N';
+			action = 'N';					//15% chance of drifting to the North.
 			return state->north;
 		}
 		else
 		{
-			action = 'S';
+			action = 'S';					//15% chance of drifting to the South.
 			return state->south;
 		}
 		break;
-	case('S'):
-		if (rng <= 70)
+	case('S'):								//If the action is South
+		if (rng <= 70)						//70% chance the next state remains South
 			return state->south;
 		else if (rng > 70 && rng <= 85)
 		{
-			action = 'W';
+			action = 'W';					//15% chance of drifting to the West.
 			return state->prev;
 		}
 		else
 		{
-			action = 'E';
+			action = 'E';					//15% chance of drifting to the East.
 			return state->next;
 		}
 		break;
@@ -921,58 +921,57 @@ Node* TDrift(Node* state, char& action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: Next state node.
+// OUTPUT: Maximum Q-value from the next state.
+// DESCRIPTION: Function returns the maximum Q-value from the next state to the Q-Learning update.
 float MaxQSA(Node* nextState)
 {
-	float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };
-	float* optimalCost = max_element(optimalAction, optimalAction + 4);
-	if (*optimalCost == nextState->W.qValue)
+	float optimalAction[4] = { nextState->W.qValue, nextState->N.qValue, nextState->E.qValue, nextState->S.qValue };	//Create an array that contains the Q-values from each direction of the next state.
+	float* optimalCost = max_element(optimalAction, optimalAction + 4);													//Use max_element to return the largest element of the array of Q-values.
+	if (*optimalCost == nextState->W.qValue)																			//If the Max Q-value is West, return it to the Q-Learning update function.
 		return nextState->W.qValue;
-	else if (*optimalCost == nextState->N.qValue)
+	else if (*optimalCost == nextState->N.qValue)																			//If the Max Q-value is North, return it to the Q-Learning update function.
 		return nextState->N.qValue;
-	else if (*optimalCost == nextState->E.qValue)
+	else if (*optimalCost == nextState->E.qValue)																			//If the Max Q-value is East, return it to the Q-Learning update function.
 		return nextState->E.qValue;
-	else if (*optimalCost == nextState->S.qValue)
+	else if (*optimalCost == nextState->S.qValue)																			//If the Max Q-value is South, return it to the Q-Learning update function.
 		return nextState->S.qValue;
 }
 
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: state, next state, and action.
+// OUTPUT: New Q-value and N-value for the state.
+// DESCRIPTION: Function uses Q-learning to update the Q-value and N-value for the current state.
 void UpdateNQ(Node* state, Node* nextState, char action)
 {
-	float nsa, qsa, test;
-	switch (action)
+	float nsa, qsa;																			//Declare the N-value and Q-value for calculations.				
+	switch (action)																			//Switch for the action
 	{
-	case ('W'):
-		state->W.nValue++;
-		nsa = (float)state->W.nValue;
-		qsa = (float)state->W.qValue;
-		state->W.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
+	case ('W'):																				//If the action is West, it's R(s,a) = -2.
+		state->W.nValue++;																	//N(s,a) <- N(s,a) + 1 
+		nsa = (float)state->W.nValue;														//Cast the N-value as a float into the temp variable
+		qsa = (float)state->W.qValue;														//Cast the Q-value as a float into the temp variable
+		state->W.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));	//Q(s,a) <- Q(s,a) + 1 / N(s,a) * [R(s,a) + ymaxQ(s',a') - Q(s,a)].
 		break;
-	case ('N'):
-		state->N.nValue++;
-		nsa = (float)state->N.nValue;
-		qsa = (float)state->N.qValue;
-		state->N.qValue = qsa + ((1.0 / nsa) * (-3.0 + (0.9 * MaxQSA(nextState)) - qsa));
+	case ('N'):																				//If the action is North, it's R(s,a) = -3.
+		state->N.nValue++;																	//N(s,a) <- N(s,a) + 1 
+		nsa = (float)state->N.nValue;														//Cast the N-value as a float into the temp variable
+		qsa = (float)state->N.qValue;														//Cast the Q-value as a float into the temp variable
+		state->N.qValue = qsa + ((1.0 / nsa) * (-3.0 + (0.9 * MaxQSA(nextState)) - qsa));	//Q(s,a) <- Q(s,a) + 1 / N(s,a) * [R(s,a) + ymaxQ(s',a') - Q(s,a)].
 		break;
-	case ('E'):
-		state->E.nValue++;
-		nsa = (float)state->E.nValue;
-		qsa = (float)state->E.qValue;
-		test = MaxQSA(nextState);
-		state->E.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));
+	case ('E'):																				//If the action is East it's R(s,a) = -2.
+		state->E.nValue++;																	//N(s,a) <- N(s,a) + 1 
+		nsa = (float)state->E.nValue;														//Cast the N-value as a float into the temp variable
+		qsa = (float)state->E.qValue;														//Cast the Q-value as a float into the temp variable
+		state->E.qValue = qsa + ((1.0 / nsa) * (-2.0 + (0.9 * MaxQSA(nextState)) - qsa));	//Q(s,a) <- Q(s,a) + 1 / N(s,a) * [R(s,a) + ymaxQ(s',a') - Q(s,a)].
 		break;
-	case('S'):
-		state->S.nValue++;
-		nsa = (float)state->S.nValue;
-		qsa = (float)state->S.qValue;
-		state->S.qValue = qsa + ((1.0 / nsa) * (-1.0 + (0.9 * MaxQSA(nextState)) - qsa));
+	case('S'):																				//If the action is South, it's R(s,a) = -1.
+		state->S.nValue++;																	//N(s,a) <- N(s,a) + 1 
+		nsa = (float)state->S.nValue;														//Cast the N-value as a float into the temp variable
+		qsa = (float)state->S.qValue;														//Cast the Q-value as a float into the temp variable
+		state->S.qValue = qsa + ((1.0 / nsa) * (-1.0 + (0.9 * MaxQSA(nextState)) - qsa));	//Q(s,a) <- Q(s,a) + 1 / N(s,a) * [R(s,a) + ymaxQ(s',a') - Q(s,a)].
 		break;
 	}
 }
@@ -980,33 +979,32 @@ void UpdateNQ(Node* state, Node* nextState, char action)
 // AUTHOR: Ethan Puschell
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-2-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: State and counter.
+// OUTPUT: Location of goal state with updated Q-values and N-values, or 100 unsuccessful attempts.
+// DESCRIPTION: Function uses the Epsilon-greedy approach to find the goal state.
 void EGreedy(Node* state, int& counter)
 {
-	if (state->data == 100 || counter == 100)
+	if (state->data == 100 || counter == 100)		//Base case for recursive function: If the goal state is found or if there were 100 attempts made, stop the function.
 		return;
-	counter++;
-	Node* nextState;
-	char action;
-	//if (state->W.qValue == state->N.qValue == state->E.qValue == state->S.qValue)
-	if ((state->N.qValue == state->W.qValue) &&
+	counter++;										//Else, use a postfix operator to increment the counter.
+	Node* nextState;								//Declaration of the next state that the action will lead into.
+	char action;									//Declaration of the action that will determine the next direction and reward.
+	if ((state->N.qValue == state->W.qValue) &&		//If all directions are the optimal action
 		(state->N.qValue == state->E.qValue) &&
 		(state->N.qValue == state->S.qValue) &&
 		(state->S.qValue == state->E.qValue) &&
 		(state->W.qValue == state->E.qValue) &&
 		(state->W.qValue == state->S.qValue))
-		nextState = RandomTile(state, action);
+		nextState = RandomTile(state, action);		//Set the next state and action equal to a random Tile and direction.
 	else
-		nextState = OptimalTile(state, action);
+		nextState = OptimalTile(state, action);		//Otherwise, set the next state and action equal to the optimal action (with a 95% probability).
 	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
-		nextState = state;
-	nextState = TDrift(state, action);
+		nextState = state;							//If the action would cause a collision with an obstacle or edge, set the next state equal to the current state.
+	nextState = TDrift(state, action);				//Calculate the 70% probability that the state keeps its current action or if there is a drift to the left or right.
 	if (nextState == NULL || nextState->data == -1 || state->key.find('1') != string::npos && action == 'W' || state->key.find('5') != string::npos && action == 'E')
-		nextState = state;
-	UpdateNQ(state, nextState, action);
-	EGreedy(nextState, counter);
+		nextState = state;							//Check again if there is a collision with the action, and set the next state equal to the current state if there is.
+	UpdateNQ(state, nextState, action);				//Use Q-Learning to update the Q-value and N-value of the state.
+	EGreedy(nextState, counter);					//Recursively call E-Greedy approach with the next state to continue searching for the goal state.
 }
 
 // AUTHOR: Christopher Bourn
@@ -1020,10 +1018,6 @@ string optimalPath(struct Node* state) {
 	float optimalDirection = 0;
 	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
 
-	if (state->key == "c3") {
-		msg = "+100";
-		return msg;
-	}
 	if (state->W.nValue == state->N.nValue == state->E.nValue == state->S.nValue) {
 		msg = "N/A";
 		return msg;
@@ -1059,6 +1053,7 @@ string optimalPath(struct Node* state) {
 	}
 	return msg;
 }
+
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-3-20
 // LAST MODIFIED: 12-3-20
@@ -1084,22 +1079,23 @@ void printPath(struct Node* node) {
 	}
 	cout << endl;
 }
+
 int main() {
-	srand((int)time(0));
-	Node* head = NULL;
-	int counter = 0;
-	fillGrid((&head));
-	printKey(head);
+	srand((int)time(0));						//Seed the random function.
+	Node* head = NULL;							//Initialize the head Node to NULL.
+	int counter = 0;							//Initialize the counter to 0.
+	fillGrid((&head));							//Use the head node to fill the grid and create the maze.
+	printKey(head);								//Function outputs the keys of each node for programming and troubleshooting.
 	cout << endl << endl;
 
-	for (int i = 0; i < 10000; i++)
+	for (int i = 0; i < 10000; i++)				//Run the E-greedy function for 10,000 trials.
 	{
 		counter = 0;
 		EGreedy(RandomStart(head), counter);
 	}
-	printNList(head);
-	printQList(head);
-	printPath(head);
+	printNList(head);							//Print the N-values of the maze.
+	printQList(head);							//Print the Q-values of the maze.
+	printPath(head);							//Print the optimal path of the maze.
 
 	system("pause");
 	return 0;
