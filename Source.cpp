@@ -1018,6 +1018,10 @@ string optimalPath(struct Node* state) {
 	float optimalDirection = 0;
 	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
 
+	if (state->key == "c3") {
+		msg = "+100";
+		return msg;
+	}
 	if (state->W.nValue == state->N.nValue == state->E.nValue == state->S.nValue) {
 		msg = "N/A";
 		return msg;
