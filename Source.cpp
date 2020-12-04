@@ -1,8 +1,7 @@
 /*
 *Authors: Christopher Bourn & Ethan Puschell
 *Creation Date: 11-24-20
-*Modification Date: 12-1-20
-*Purpose:
+*Modification Date: 12-3-20
 */
 #include <iostream>
 #include <string>
@@ -29,9 +28,9 @@ struct Node {
 // AUTHOR: Christopher Bourn 
 // CREATION DATE: 11-24-2020
 // LAST MODIFIED: 12-1-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: Head node, new key and data, if it's a barrier or not
+// OUTPUT: The doubly linked list becomes one larger, with the new node at the end.
+// DESCRIPTION: takes in new data, and appends a node with that data to the end of a doubly linked list, starting with a head node
 void append(struct Node** head_ref, float new_data, string new_key, bool block)
 {
 	struct Node* new_node = new Node;
@@ -75,10 +74,10 @@ void append(struct Node** head_ref, float new_data, string new_key, bool block)
 
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 11-24-2020
-// LAST MODIFIED:
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// LAST MODIFIED: 11-24-2020
+// INPUT: the head node and the key of a node to find
+// OUTPUT: the node with the key
+// DESCRIPTION: this function takes in a key ie. "a1" or "f5," and outputs the node with that key. 
 Node* locate(struct Node* node, string s) {
 	struct Node* last{};
 	while (node != NULL) {
@@ -93,10 +92,10 @@ Node* locate(struct Node* node, string s) {
 
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 11-24-2020
-// LAST MODIFIED:
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 2nd function finds the node above or below a node
+// LAST MODIFIED: 11-24-2020
+// INPUT: the head node, a key, and if you want to find the node above or below
+// OUTPUT: the node that is above or below
+// DESCRIPTION: this function finds the node above or below a node
 Node* locate(struct Node* node, string s, bool a) {
 	struct Node* last{};
 
@@ -122,10 +121,10 @@ Node* locate(struct Node* node, string s, bool a) {
 
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 11-24-2020
-// LAST MODIFIED:
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// LAST MODIFIED: 11/24/2020
+// INPUT: the head node (twice)
+// OUTPUT: the grid should now be quadrupaly linked
+// DESCRIPTION: this function makes every node linked to the nodes around it, in all four directions.
 void reConnectGrid(struct Node* head, struct Node* node) {
 	struct Node* last{};
 	while (node != NULL) {
@@ -150,9 +149,9 @@ void reConnectGrid(struct Node* head, struct Node* node) {
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-1-20
 // LAST MODIFIED: 12-1-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION: 
+// INPUT: the head node
+// OUTPUT: a quadrupally linked list with all the nodes with corrrect data in place
+// DESCRIPTION: this function creates a quadrupally linked list that contains all 30 nodes with their correct data. 
 void fillGrid(struct Node** head) {
 
 	struct Node* goal;
@@ -352,10 +351,10 @@ void printNList(struct Node* node)
 
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 11-24-2020
-// LAST MODIFIED:
-// INPUT:
-// OUTPUT:
-// DESCRIPTION:
+// LAST MODIFIED: 11-24-2020
+// INPUT: the head node
+// OUTPUT: the keys of all the nodes
+// DESCRIPTION: simple print function that prints the keys of all the nodes.
 void printKey(struct Node* node) {
 	cout << "Key" << endl << left;
 	int counter = 0;
@@ -1013,14 +1012,14 @@ void EGreedy(Node* state, int& counter)
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-2-20
 // LAST MODIFIED: 12-3-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: the head node
+// OUTPUT: a string called "msg" that has arrows that represents the direction of the optimal path at that state
+// DESCRIPTION: this function finds the maximum N-Value of a state and outputs arrows corresponding to its respective direction
 string optimalPath(struct Node* state) {
 	string msg = "";
 	float optimalDirection = 0;
 	float optimalPath[4] = { state->W.nValue, state->N.nValue, state->E.nValue, state->S.nValue };
-	
+
 	if (state->key == "c3") {
 		msg = "+100";
 		return msg;
@@ -1063,9 +1062,9 @@ string optimalPath(struct Node* state) {
 // AUTHOR: Christopher Bourn
 // CREATION DATE: 12-3-20
 // LAST MODIFIED: 12-3-20
-// INPUT: 
-// OUTPUT: 
-// DESCRIPTION:
+// INPUT: the head node
+// OUTPUT: the grid of arrows
+// DESCRIPTION: simple print function that calls the OptimalPath function to find the optimal path at each state.
 void printPath(struct Node* node) {
 	cout << "Optimal path" << endl << left;
 	int counter = 0;
